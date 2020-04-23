@@ -1,0 +1,16 @@
+// pagination
+.v-pagination {
+  li {
+    margin-left: 5px;
+  }
+  .v-pagination__navigation--disabled {
+    background-color: #eee  !important;
+  }
+  .v-pagination__item--active {
+    color: #fff !important;
+  }
+  button {
+    height: 35px;
+    min-width: 35px !important;
+  }
+}

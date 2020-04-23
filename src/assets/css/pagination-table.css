@@ -1,0 +1,7 @@
+.pagination-table tbody td {
+  white-space: nowrap;
+}
+
+.pagination-table thead th {
+  white-space: nowrap;
+}

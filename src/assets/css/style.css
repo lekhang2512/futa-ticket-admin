@@ -1,0 +1,32 @@
+html {
+  overflow-y: auto;
+}
+.cursor-pointer{
+  cursor: pointer;
+}
+.text-transform-unset {
+  text-transform: unset;
+}
+.v-label {
+  font-size: 0.875rem;
+}
+.v-pagination {
+  width: auto;
+}
+.v-pagination .v-pagination__navigation {
+  background: #EEEEEE !important;
+  box-shadow: unset;
+  border: 1px solid #DEDEDE;
+  color: rgba(102, 102, 102, 0.87);
+}
+.v-pagination .v-pagination__item--active {
+  box-shadow: unset !important;
+  color: #000000 !important;
+  border: 1px solid #DEDEDE;
+}
+.v-data-table thead tr th {
+  font-size: 0.875rem;
+}
+.v-data-table td, .v-data-table th {
+  padding: 8px 16px;
+}

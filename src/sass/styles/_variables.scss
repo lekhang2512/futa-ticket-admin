@@ -1,0 +1,35 @@
+// Custom theme light
+$material-light: (
+  'background': #F5F5F5,
+  'color': #000000
+);
+// Custom v-badge
+$badge-border-radius: 3px;
+$badge-width: 16px;
+$badge-height: 14px;
+$badge-font-size: 10px;
+$badge-min-width: 16px;
+$badge-padding: 3px 6px;
+$badge-wrapper-margin: 0;
+// Custom v-list
+$list-padding: 15px 0 !default;
+$list-nav-padding-left: 15px !default;
+$list-nav-padding-right: 15px !default;
+$list-nav-item-padding: 0 10px !default;
+$list-item-action-icon-margin: 18px !default;
+$list-item-action-margin: 20px 0 !default;
+// Custom v-pagination
+$pagination-border-radius: 0 !default;
+$pagination-item-height: 28px !default;
+$pagination-item-margin: 0 !default;
+$pagination-item-min-width: 76px !default;
+$pagination-more-height: 28px !default;
+$pagination-more-width: 28px !default;
+$pagination-more-margin: 0 !default;
+$pagination-navigation-margin: 0 !default;
+$pagination-navigation-height: 28px !default;
+$pagination-navigation-width: 28px !default;
+$pagination-item-font-size: 14px !default;
+
+// Custom color
+$color-accent: #27b7d7;

@@ -1,0 +1,79 @@
+.account-heading {
+  height: 30px;
+  background: #F0AA2E;
+  width: 100%;
+}
+.form {
+  width: 470px;
+}
+.form-title {
+  font-family: "Roboto Slab", serif;
+  font-weight: bold;
+  font-size: 24px;
+  text-transform: uppercase;
+}
+.form-content {
+  padding: 0 40px;
+}
+.form-input-label {
+  font-size: 14px;
+}
+.form-action {
+  padding: 18px 40px 0 40px;
+  width: 100%;
+}
+.form-or-login {
+  color: #666666;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 25px 0;
+  text-transform: uppercase;
+}
+.form-social {
+  width: 100%;
+}
+.social-button {
+  width: 180px;
+  text-align: left;
+  border: 2px solid #dedede;
+  padding: 0 15px !important;
+  font-size: 14px;
+  text-transform: capitalize;
+  text-align: center;
+}
+.social-icon {
+  position: absolute;
+  left: 0;
+}
+.form-action-link {
+  font-size: 14px;
+  font-weight: bold;
+  width: 100%;
+  margin-top: 25px;
+  margin-bottom: 70px;
+}
+.form-action-link a {
+  color: #6398ff;
+  text-decoration: none;
+}
+.account-footer {
+  bottom: 10px;
+  width: 100%;
+}
+.account-footer-center {
+  text-decoration: underline;
+  color: #ffffff;
+}
+@media (max-width: 600px) {
+  .form {
+    width: 100%;
+  }
+  .social-button {
+    width: 100%;
+  }
+}
+@media (min-width: 1600px) {
+  .account {
+    height: 900px;
+  }
+}
