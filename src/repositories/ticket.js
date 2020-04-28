@@ -1,12 +1,12 @@
 import BaseRepository from './base'
 
-class ProductRepository extends BaseRepository {
+class TicketRepository extends BaseRepository {
   url () {
-    return this.apiVersion() + '/products'
+    return this.apiVersion() + '/tickets'
   }
 
-  async chooseToImport (data, query = {}, headers = {}) {
-    let url = this.apiVersion() + '/products/choose-product'
+  async create (data, query = {}, headers = {}) {
+    let url = this.apiVersion() + '/tickets'
     try {
       let response = await this.httpClient.post(url, data, { params: query, headers: headers })
       return this.success(response.data)
@@ -16,5 +16,5 @@ class ProductRepository extends BaseRepository {
   }
 }
 
-export default ProductRepository
+export default TicketRepository
 

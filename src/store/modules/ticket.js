@@ -1,10 +1,10 @@
 import {
-  SET_CARDS,
-  SET_CARDS_PAGINATION,
-  SET_CARDS_LOADING,
+  SET_TICKETS,
+  SET_TICKETS_PAGINATION,
+  SET_TICKETS_LOADING,
   SET_INITIAL_STATE
 } from '../mutation-types'
-import CardRepository from '@/repositories/card'
+import TicketRepository from '@/repositories/ticket'
 import i18n from '@/i18n'
 
 const initState = () => {
@@ -36,16 +36,16 @@ const state = {
  */
 const actions = {
   async getByQuery ({ dispatch, commit }, payload) {
-    let cardRepo = (new CardRepository(window.axios))
+    let ticketRepo = (new TicketRepository(window.axios))
 
-    commit(SET_CARDS_LOADING, true)
-    let {success, response} = await cardRepo.getByQuery(payload.query)
-    commit(SET_CARDS_LOADING, false)
+    commit(SET_TICKETS_LOADING, true)
+    let {success, response} = await ticketRepo.getByQuery(payload.query)
+    commit(SET_TICKETS_LOADING, false)
 
     if (success) {
-      commit(SET_CARDS, response.data)
+      commit(SET_TICKETS, response.data)
       if (response.meta && response.meta.pagination) {
-        commit(SET_CARDS_PAGINATION, response.meta.pagination )
+        commit(SET_TICKETS_PAGINATION, response.meta.pagination )
       }
       if (payload.cb) {
         payload.cb(response.data)
@@ -55,13 +55,13 @@ const actions = {
     }
   },
   async create ({ dispatch }, payload) {
-    let cardRepo = (new CardRepository(window.axios))
-    let {success, response} = await cardRepo.create(payload.data, payload.query)
+    let ticketRepo = (new TicketRepository(window.axios))
+    let {success, response} = await ticketRepo.create(payload.data, payload.query)
 
     if (success) {
       dispatch('snackbar/showSnackBar', {
         color: 'success',
-        text: i18n.tc('pages.card.create_success')
+        text: i18n.tc('pages.ticket.create_success')
       }, { root: true })
       if (payload.cb) {
         payload.cb(response.data)
@@ -76,13 +76,13 @@ const actions = {
  * mutations
  */
 const mutations = {
-  [SET_CARDS]: (state, list) => {
+  [SET_TICKETS]: (state, list) => {
     state.list = list
   },
-  [SET_CARDS_LOADING]: (state, loading) => {
+  [SET_TICKETS_LOADING]: (state, loading) => {
     state.listLoading = loading
   },
-  [SET_CARDS_PAGINATION]: (state, pagination) => {
+  [SET_TICKETS_PAGINATION]: (state, pagination) => {
     state.pagination = pagination
   },
   [SET_INITIAL_STATE]: (state) => {
@@ -96,10 +96,10 @@ const mutations = {
  * getters
  */
 const getters = {
-  cards: (state) => state.list,
-  cardsLoading: (state) => state.listLoading,
-  card: (state) => state.detail,
-  cardPagination: (state) => state.pagination
+  tickets: (state) => state.list,
+  ticketsLoading: (state) => state.listLoading,
+  ticket: (state) => state.detail,
+  ticketPagination: (state) => state.pagination
 }
 
 export default {

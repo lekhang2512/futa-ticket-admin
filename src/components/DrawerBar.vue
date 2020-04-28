@@ -80,16 +80,16 @@ export default {
           can_access: true
         },
         {
+          icon: 'mdil-alert',
+          text: this.$t('title.ticket'),
+          route: { name: 'ticket' },
+          can_access: true
+        },
+        {
           icon: 'mdil-settings',
           text: this.$t('title.setting'),
           can_access: true,
           children: [
-            {
-              icon: 'sd_card',
-              text: this.$t('title.card'),
-              route: { name: 'card' },
-              can_access: true
-            },
             {
               icon: 'mdil-account mdil-24px',
               text: this.$t('title.profile'),

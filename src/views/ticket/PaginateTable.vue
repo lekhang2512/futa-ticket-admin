@@ -14,7 +14,7 @@
     :items-per-page="options.itemsPerPage"
     class="pagination-table"
     :options.sync="options"
-    :server-items-length="cardPagination.total"
+    :server-items-length="ticketPagination.total"
     :no-data-text="$t('pages.common.no-data')"
     :no-results-text="$t('pages.common.no-results-data')"
     :loading-text="$t('pages.common.loading-data')"
@@ -23,47 +23,59 @@
       <v-sheet elevation="5" class="pa-2">
         <filter-bar
           v-model="filters"
-          :advanceFilter="advanceFilter"
+          @filterStatus="filterStatus"
         />
       </v-sheet>
     </template>
 
+    <template v-slot:item.index="{ item }">
+      <span> {{ data.map(function(x) {return x.id }).indexOf(item.id) + 1}}</span>
+    </template>
     <template v-slot:item.name="{ item }">
-      <span v-copy="item.name">{{ item.name }}</span>
+      <a @click="showDetail()">{{ item.name }}</a>
     </template>
-    <template v-slot:item.number="{ item }">
-      <span v-copy="item.number">{{ item.number }}</span>
+    <template v-slot:item.description="{ item }">
+      <span> {{ item.description }}</span>
     </template>
-    <template v-slot:item.bank="{ item }">
-      <span v-copy="item.bank.data.name">{{ item.bank.data.name }}</span>
-    </template>
-    <template v-slot:item.branch="{ item }">
-      <span v-copy="item.branch">{{ item.branch }}</span>
-    </template>
-    <template v-slot:item.main="{ item }" class="align-center">
-      <v-icon v-if="item.main" color="green">check</v-icon>
-    </template>
-    <!-- <template v-slot:item.status="{ item }">
+
+    <template v-slot:item.priority="{ item }">
       <v-chip
         small
         dark
-        :color="item.bank.data.active ? 'green' : 'red'"
+        :color="ticketPriorityColor[item.priority]"
       >
-      {{ item.bank.data.active_text }}
+      {{ item.priority_txt }}
     </v-chip>
-    </template> -->
+    </template>
+
+    <template v-slot:item.status="{ item }">
+      <v-chip
+        small
+        dark
+        :color="ticketStatusColor[item.status]"
+      >
+      {{ item.status_txt }}
+    </v-chip>
+    </template>
+
+    <template v-slot:item.created_at="{ item }">
+      <span>{{ item.created_at }}</span>
+    </template>
+
+    <template v-slot:item.due_date="{ item }">
+      <span>{{ item.due_date }}</span>
+    </template>
   </v-data-table>
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { forEach, isEqual } from 'lodash'
 import FilterBar from './FilterBar.vue'
+import { ticketStatusColor, ticketPriorityColor } from '@/helpers/variables'
 
 export default {
-  name: 'CardPaginateTable',
-  props: [
-    'advanceFilter'
-  ],
+  name: 'TicketPaginateTable',
+  props: [],
   components: {
     FilterBar
   },
@@ -71,7 +83,7 @@ export default {
     return {
       filters: {
         q: undefined,
-        active: undefined
+        status: undefined,
       },
       selected: [],
       options: {
@@ -81,41 +93,49 @@ export default {
         page: 1
       },
       headers: [
-        { text: this.$t('pages.card.name'), value: 'name' },
-        { text: this.$t('pages.card.number'), value: 'number' },
-        { text: this.$t('pages.card.bank'), value: 'bank', sortable: false },
-        { text: this.$t('pages.card.branch'), value: 'branch' },
-        { text: this.$t('pages.card.main'), value: 'main', sortable: false },
-        // { text: this.$t('pages.card.status'), value: 'status' },
-        { text: this.$t('pages.common.created_at'), value: 'created_at' },
+        { text: '#', value: 'index', sortable: false },
+        { text: this.$t('pages.ticket.name'), value: 'name', sortable: false },
+        { text: this.$t('pages.ticket.description'), value: 'description', sortable: false },
+        { text: this.$t('pages.ticket.priority'), value: 'priority', sortable: false },
+        { text: this.$t('pages.common.status'), value: 'status', sortable: false },
+        { text: this.$t('pages.common.created_at'), value: 'created_at', sortable: false },
+        { text: this.$t('pages.ticket.due_date'), value: 'due_date', sortable: false },
         // { text: this.$t('pages.common.action'), value: 'actions', sortable: false },
-      ]
+      ],
+      ticketStatusColor: ticketStatusColor,
+      ticketPriorityColor: ticketPriorityColor
     }
   },
   computed: {
-    ...mapGetters('card', ['cards', 'cardPagination']),
+    ...mapGetters('ticket', ['tickets', 'ticketPagination']),
     ...mapGetters('table', ['itemsPerPageOptions', 'itemsPerPage']),
     data: {
       get () {
-        return this.cards
+        return this.tickets
       }
     },
     pagination: {
       get () {
-        return this.cardPagination
+        return this.ticketPagination
       }
     }
   },
   methods: {
-    ...mapActions('card', ['getByQuery']),
+    ...mapActions('ticket', ['getByQuery']),
+    showDetail () {
+      console.log('showDetail')
+    },
+    filterStatus (code) {
+      this.filters.status = code
+    },
     buildQuery () {
       return {
         limit: this.options.itemsPerPage || undefined,
         page: this.options.page || undefined,
-        sort: this.buildSort() || undefined,
-        q: this.filters.q || undefined,
-        active: this.filters.active,
-        include: ['bank']
+        // sort: this.buildSort() || undefined,
+        // q: this.filters.q || undefined,
+        // status: this.filters.status,
+        // include: ['bank']
       }
     },
     buildSort () {
@@ -145,7 +165,7 @@ export default {
     parseFilter () {
       return {
         q: this.$route.query.q,
-        active: typeof(this.$route.query.active) !== 'undefined' ? parseInt(this.$route.query.active) : undefined
+        status: typeof(this.$route.query.status) !== 'undefined' ? parseInt(this.$route.query.status) : undefined
       }
     },
     fetchData () {

@@ -4,16 +4,13 @@
       <v-col cols="12">
         <p class="title mb-4 d-flex align-center flex-wrap">
           {{$t('title.card')}}
-          <v-spacer></v-spacer>
-          <create-button v-if="access('id', 'user', 'create')" @click="$router.push({ name: 'card-create' })"/>
+          <!-- <v-spacer></v-spacer> -->
+          <!-- <create-button v-if="access('id', 'user', 'create')" @click="$router.push({ name: 'ticket-create' })"/> -->
         </p>
 
          <v-card>
           <v-card-text>
-            <paginate-table
-              ref="table"
-              :advanceFilter="advanceFilter"
-            />
+            <paginate-table ref="table" />
           </v-card-text>
         </v-card>
 
@@ -25,10 +22,9 @@
 <script>
 import PaginateTable from './PaginateTable.vue'
 export default {
-  name: 'CardList',
+  name: 'TicketList',
   data () {
     return {
-      advanceFilter: false,
       advanceFilterList: ['active', 'vetifyRange']
     }
   },

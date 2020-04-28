@@ -7,6 +7,7 @@
     </v-toolbar-title>
     <!-- <cart-app-bar /> -->
     <v-spacer />
+    <v-btn small color="primary" @click="$router.push({ name: 'ticket-create' })">Tạo Ticket</v-btn>
     <info-app-bar class="d-none d-md-flex" />
     <!-- <notify-app-bar /> -->
     <account-app-bar />

@@ -1,21 +1,21 @@
 <template>
   <v-row dense>
-    <v-col cols="12" md="6">
+    <v-col cols="12" md="3">
       <filter-text-field
         v-model="value.q"
-        :label="$t('pages.card.filter_query')"
+        :label="$t('pages.ticket.filter_query')"
         @input="$emit('input', value)"
         icon="mdi-table-search"
       />
     </v-col>
-    <v-col cols="12" md="3" v-if="advanceFilter">
+    <v-col cols="12" md="3">
       <v-autocomplete
         hide-details
-        v-model="value.active"
+        v-model="value.status"
         :items="[{name: 'Kích hoạt', code: 1}, {name: 'Đã khoá', code: 0}]"
         item-text="name"
         item-value="code"
-        :label="$t('pages.card.filter_active')"
+        :label="$t('pages.ticket.filter_status')"
         @input="$emit('input', value)"
         clearable
         outlined
@@ -27,8 +27,8 @@
 <script>
 import FilterTextField from '@/components/filter/FilterTextField.vue'
 export default {
-  name: 'CardFilterBar',
-  props: ['value', 'advanceFilter'],
+  name: 'TicketFilterBar',
+  props: ['value'],
   components: {
     FilterTextField
   }

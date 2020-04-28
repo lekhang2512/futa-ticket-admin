@@ -5,7 +5,7 @@
          <v-card>
           <v-toolbar dense>
             <back-button @click="() => { $router.back() }" />
-            <v-toolbar-title>{{$t('title.card_create')}}</v-toolbar-title>
+            <v-toolbar-title>{{$t('title.ticket_create')}}</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
 
@@ -28,7 +28,7 @@
 import Form from './Form.vue'
 import { mapActions } from 'vuex'
 export default {
-  name: 'CardCreate',
+  name: 'TicketCreate',
   components: {
     Form
   },
@@ -38,14 +38,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions('card', ['create']),
+    ...mapActions('ticket', ['create']),
     async submit (data) {
       this.btnLoading = true
       await this.create({
         data: data,
         cb: () => {
           this.$refs.form.$emit('init', {})
-          this.$router.push({'name': 'card', query: this.parseListParrams() })
+          this.$router.push({'name': 'ticket', query: this.parseListParrams() })
         }
       })
       this.btnLoading = false

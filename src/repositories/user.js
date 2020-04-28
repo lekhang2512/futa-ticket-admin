@@ -22,7 +22,7 @@ class UserRepository extends BaseRepository {
   }
 
   async profile(query = {}, headers = {}) {
-    let url = this.apiVersion() + '/me'
+    let url = '/me'
     try {
       let response = await this.httpClient.get(url, { params: query, headers: headers })
       return this.success(response.data)
