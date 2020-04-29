@@ -119,7 +119,6 @@
         </v-col> -->
 
         <v-col cols="12" sm="4">
-          <span>cc</span>
           <v-datetime-picker
             v-model="datetime"
             :text-field-props="textFieldProps"
