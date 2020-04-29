@@ -49,9 +49,11 @@
       "status": "Trạng thái",
       "due_date": "Ngày hết hạn",
       "assignee": "Người phụ trách",
+      "tag": "Thẻ",
       "filter_query": "Tìm kiếm ...",
       "filter_status": "Tìm kiếm trạng thái",
-      "create_success": "Tạo mới thành công"
+      "create_success": "Tạo mới thành công",
+      "issue_type": "Loại sự cố"
     },
     "ticket_type": {
       "name": "Tiêu đề",

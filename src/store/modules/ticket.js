@@ -56,7 +56,7 @@ const actions = {
   },
   async create ({ dispatch }, payload) {
     let ticketRepo = (new TicketRepository(window.axios))
-    let {success, response} = await ticketRepo.create(payload.data, payload.query)
+    let {success, response} = await ticketRepo.create(payload.data)
 
     if (success) {
       dispatch('snackbar/showSnackBar', {

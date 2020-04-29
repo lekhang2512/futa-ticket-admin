@@ -44,20 +44,11 @@ export default {
         data: data,
         cb: () => {
           this.$refs.form.$emit('init', {})
-          this.$router.push({'name': 'source', query: this.parseListParrams() })
+          this.$router.push({ 'name': 'source' })
         }
       })
       this.btnLoading = false
     },
-    parseListParrams () {
-      try {
-        let params = JSON.parse(this.$route.query.list)
-        params.rf = 1
-        return params
-      } catch(e) {
-        return {rf: 1}
-      }
-    }
   }
 }
 </script>

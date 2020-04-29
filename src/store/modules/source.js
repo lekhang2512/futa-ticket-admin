@@ -76,7 +76,7 @@ const actions = {
   },
   async create ({ dispatch }, payload) {
     let sourceRepo = (new SourceRepository(window.axios))
-    let {success, response} = await sourceRepo.create(payload.data, payload.query)
+    let {success, response} = await sourceRepo.create(payload.data)
 
     if (success) {
       dispatch('snackbar/showSnackBar', {

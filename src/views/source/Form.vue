@@ -3,10 +3,7 @@
     v-slot="{ invalid, passes }"
     ref="observer"
   >
-    <v-form
-      @submit.prevent="passes(submit)"
-      @keyup.native.enter="passes(submit)"
-    >
+    <v-form @submit.prevent="passes(submit)">
       <v-row dense>
         <v-col cols="12">
           <ValidationProvider
@@ -40,7 +37,7 @@
               color="primary"
               @click="passes(submit)"
             >
-              {{isCreateForm() ? $t('actions.create') : $t('actions.update')}}
+              {{ type === 'create' ? $t('actions.create') : $t('actions.update')}}
             </v-btn>
           </div>
         </v-col>
@@ -78,16 +75,8 @@ export default {
   },
   methods: {
     submit () {
-      this.$emit('submit', this.getFormData())
-    },
-    getFormData () {
-      return this.formData
-    },
-    isCreateForm () {
-      return this.getType() === 'create'
-    },
-    getType () {
-      return this.type || 'create'
+      console.log('submit form')
+      this.$emit('submit', this.formData)
     }
   },
   mounted () {

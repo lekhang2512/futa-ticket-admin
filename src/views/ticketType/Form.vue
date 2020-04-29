@@ -3,10 +3,7 @@
     v-slot="{ invalid, passes }"
     ref="observer"
   >
-    <v-form
-      @submit.prevent="passes(submit)"
-      @keyup.native.enter="passes(submit)"
-    >
+    <v-form @submit.prevent="passes(submit)">
       <v-row dense>
         <v-col cols="12">
           <ValidationProvider

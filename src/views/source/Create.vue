@@ -39,24 +39,16 @@ export default {
   methods: {
     ...mapActions('source', ['create']),
     async submit (data) {
+      console.log('submit')
       this.btnLoading = true
       await this.create({
         data: data,
         cb: () => {
           this.$refs.form.$emit('init', {})
-          this.$router.push({'name': 'source', query: this.parseListParrams() })
+          this.$router.push({ 'name': 'source' })
         }
       })
       this.btnLoading = false
-    },
-    parseListParrams () {
-      try {
-        let params = JSON.parse(this.$route.query.list)
-        params.rf = 1
-        return params
-      } catch(e) {
-        return {rf: 1}
-      }
     }
   }
 }
