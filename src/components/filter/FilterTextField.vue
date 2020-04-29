@@ -1,23 +1,21 @@
 <template>
   <v-text-field
+    autocomplete='off'
     hide-details
+    outlined
     dense
     :label="label"
     v-model="query"
-    :prepend-inner-icon="icon || 'mdil-magnify'"
+    :append-icon="icon || 'mdi-table-search'"
     @input="commit"
     clearable
-    background-color="#F2F2F2"
-    height="40"
-    solo
-    flat
-  ></v-text-field>
+  />
 </template>
 
 <script>
 import { debounce } from 'lodash'
 export default {
-  name: 'FilterDateRange',
+  name: 'FilterTextField',
   props: ['value', 'label', 'icon'],
   data () {
     return {

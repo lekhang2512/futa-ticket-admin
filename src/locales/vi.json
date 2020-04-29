@@ -2,6 +2,14 @@
   "title": {
     "login": "Đăng nhập",
     "logout": "Đăng xuất",
+    "ticket_type": "Danh sách loại sự cố",
+    "ticket_type_create": "Tạo mới loại sự cố",
+    "ticket_type_duplicate": "Nhân bản loại sự cố",
+    "ticket_type_update": "Cập nhật loại sự cố",
+    "source": "Danh sách nguồn",
+    "source_create": "Tạo mới nguồn",
+    "source_duplicate": "Nhân bản nguồn",
+    "source_update": "Cập nhật mới nguồn",
     "forgot_password": "Quên mật khẩu",
     "dashboard": "Bảng điều khiển",
     "profile": "Thông tin cá nhân",
@@ -44,6 +52,30 @@
       "filter_query": "Tìm kiếm ...",
       "filter_status": "Tìm kiếm trạng thái",
       "create_success": "Tạo mới thành công"
+    },
+    "ticket_type": {
+      "name": "Tiêu đề",
+      "description": "Mô tả",
+      "priority": "Độ ưu tiên",
+      "status": "Trạng thái",
+      "due_date": "Ngày hết hạn",
+      "assignee": "Người phụ trách",
+      "filter_query": "Tìm kiếm ...",
+      "filter_status": "Tìm kiếm trạng thái",
+      "create_success": "Tạo mới thành công",
+      "delete_success": "Xóa thành công"
+    },
+    "source": {
+      "name": "Tiêu đề",
+      "description": "Mô tả",
+      "priority": "Độ ưu tiên",
+      "status": "Trạng thái",
+      "due_date": "Ngày hết hạn",
+      "assignee": "Người phụ trách",
+      "filter_query": "Tìm kiếm ...",
+      "filter_status": "Tìm kiếm trạng thái",
+      "create_success": "Tạo mới thành công",
+      "delete_success": "Xóa thành công"
     },
     "login": {
       "form_title": "Đăng nhập",
@@ -157,7 +189,8 @@
     "advance_filter_show": "Hiển thị lọc nâng cao",
     "advance_filter_hide": "Ẩn lọc nâng cao",
     "verify_email": "Gửi lại email xác nhận",
-    "require_supported": "Yêu cầu hỗ trợ"
+    "require_supported": "Yêu cầu hỗ trợ",
+    "label": "Hành động"
   },
   "confirms": {
     "delete": "Bạn chắc chắn muốn xoá?"

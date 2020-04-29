@@ -1,14 +1,22 @@
 <template>
-  <v-container fluid class="pa-6">
+  <v-container fluid>
     <v-row dense>
       <v-col cols="12">
-        <p class="title mb-4 d-flex align-center flex-wrap">
-          {{$t('title.ticket')}}
-          <!-- <v-spacer></v-spacer> -->
-          <!-- <create-button v-if="access('id', 'user', 'create')" @click="$router.push({ name: 'ticket-create' })"/> -->
-        </p>
+        <v-card>
+          <v-toolbar dense>
+            <v-toolbar-title>{{$t('title.ticket_type')}}</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-divider
+              class="mx-4"
+              inset
+              vertical
+            />
+            <create-button
+              v-if="access()"
+              @click="$router.push({name: 'ticket-type-create', query: { list: JSON.stringify($route.query) }})"
+            />
+          </v-toolbar>
 
-         <v-card>
           <v-card-text>
             <paginate-table ref="table" />
           </v-card-text>
@@ -22,7 +30,7 @@
 <script>
 import PaginateTable from './PaginateTable.vue'
 export default {
-  name: 'TicketList',
+  name: 'TicketTypeList',
   data () {
     return {
       advanceFilterList: ['active', 'vetifyRange']

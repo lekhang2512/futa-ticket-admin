@@ -14,7 +14,7 @@
     :items-per-page="options.itemsPerPage"
     class="pagination-table"
     :options.sync="options"
-    :server-items-length="ticketPagination.total"
+    :server-items-length="ticketTypePagination.total"
     :no-data-text="$t('pages.common.no-data')"
     :no-results-text="$t('pages.common.no-results-data')"
     :loading-text="$t('pages.common.loading-data')"
@@ -22,7 +22,6 @@
     <template v-slot:top>
       <filter-bar
         v-model="filters"
-        @filterStatus="filterStatus"
       />
     </template>
 
@@ -33,55 +32,35 @@
       <a @click="showDetail()">{{ item.name }}</a>
     </template>
     <template v-slot:item.description="{ item }">
-      <span v-html="item.description"></span>
+      <span>{{ item.description }}</span>
     </template>
-
-    <template v-slot:item.priority="{ item }">
-      <v-chip
-        small
-        dark
-        :color="ticketPriorityColor[item.priority]"
-      >
-      {{ item.priority_txt }}
-    </v-chip>
-    </template>
-
-    <template v-slot:item.status="{ item }">
-      <v-chip
-        small
-        dark
-        :color="ticketStatusColor[item.status]"
-      >
-      {{ item.status_txt }}
-    </v-chip>
-    </template>
-
     <template v-slot:item.created_at="{ item }">
       <span>{{ item.created_at }}</span>
     </template>
 
-    <template v-slot:item.due_date="{ item }">
-      <span>{{ item.due_date }}</span>
+    <template v-slot:item.actions="{ item }">
+      <action-bar @success="fetchData" :item="item" />
     </template>
+
   </v-data-table>
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { forEach, isEqual } from 'lodash'
 import FilterBar from './FilterBar.vue'
-import { ticketStatusColor, ticketPriorityColor } from '@/helpers/variables'
+import ActionBar from './ActionBar.vue'
 
 export default {
-  name: 'TicketPaginateTable',
+  name: 'TicketTypePaginateTable',
   props: [],
   components: {
+    ActionBar,
     FilterBar
   },
   data () {
     return {
       filters: {
-        q: undefined,
-        status: undefined,
+        q: undefined
       },
       selected: [],
       options: {
@@ -92,48 +71,37 @@ export default {
       },
       headers: [
         { text: '#', value: 'index', sortable: false },
-        { text: this.$t('pages.ticket.name'), value: 'name', sortable: false },
-        { text: this.$t('pages.ticket.description'), value: 'description', sortable: false },
-        { text: this.$t('pages.ticket.priority'), value: 'priority', sortable: false },
-        { text: this.$t('pages.common.status'), value: 'status', sortable: false },
+        { text: this.$t('pages.ticket_type.name'), value: 'name', sortable: false },
+        { text: this.$t('pages.ticket_type.description'), value: 'description', sortable: false },
         { text: this.$t('pages.common.created_at'), value: 'created_at', sortable: false },
-        { text: this.$t('pages.ticket.due_date'), value: 'due_date', sortable: false },
-        // { text: this.$t('pages.common.action'), value: 'actions', sortable: false },
-      ],
-      ticketStatusColor: ticketStatusColor,
-      ticketPriorityColor: ticketPriorityColor
+        { text: this.$t('actions.label'), value: 'actions', sortable: false }
+      ]
     }
   },
   computed: {
-    ...mapGetters('ticket', ['tickets', 'ticketPagination']),
+    ...mapGetters('ticketType', ['ticketTypes', 'ticketTypePagination']),
     ...mapGetters('table', ['itemsPerPageOptions', 'itemsPerPage']),
     data: {
       get () {
-        return this.tickets
+        return this.ticketTypes
       }
     },
     pagination: {
       get () {
-        return this.ticketPagination
+        return this.ticketTypePagination
       }
     }
   },
   methods: {
-    ...mapActions('ticket', ['getByQuery']),
+    ...mapActions('ticketType', ['getByQuery']),
     showDetail () {
       console.log('showDetail')
-    },
-    filterStatus (code) {
-      console.log('code: ', code)
-      this.filters.status = code
     },
     buildQuery () {
       return {
         limit: this.options.itemsPerPage || undefined,
         page: this.options.page || undefined,
-        // sort: this.buildSort() || undefined,
-        q: this.filters.q || undefined,
-        status: this.filters.status,
+        q: this.filters.q || undefined
       }
     },
     buildSort () {
@@ -162,8 +130,7 @@ export default {
     },
     parseFilter () {
       return {
-        q: this.$route.query.q,
-        status: typeof(this.$route.query.status) !== 'undefined' ? parseInt(this.$route.query.status) : undefined
+        q: this.$route.query.q
       }
     },
     fetchData () {
