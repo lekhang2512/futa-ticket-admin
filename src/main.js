@@ -22,6 +22,7 @@ import * as filters from '@/filters'
 import VueLazyload from 'vue-lazyload'
 import ErrorImg from '@/assets/images/error.png'
 import LoadingImg from '@/assets/images/loading.gif'
+import DatetimePicker from 'vuetify-datetime-picker'
 
 Vue.use(VueLazyload, {
   preLoad: 1.3,
@@ -30,6 +31,7 @@ Vue.use(VueLazyload, {
   attempt: 1
 })
 
+Vue.use(DatetimePicker)
 Vue.use(Viewer)
 Vue.config.productionTip = false
 

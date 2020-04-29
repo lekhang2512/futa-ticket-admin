@@ -64,7 +64,7 @@ const actions = {
   },
   async profile ({ dispatch, commit }) {
     let userRepo = (new UserRepository(window.axios))
-    let query = { include: 'debit' }
+    let query = { }
     let {success, response} = await userRepo.profile(query)
     if (success) {
       commit(SET_USER, response.data)

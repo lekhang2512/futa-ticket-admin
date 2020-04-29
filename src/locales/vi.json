@@ -42,7 +42,8 @@
       "due_date": "Ngày hết hạn",
       "assignee": "Người phụ trách",
       "filter_query": "Tìm kiếm ...",
-      "filter_status": "Tìm kiếm trạng thái"
+      "filter_status": "Tìm kiếm trạng thái",
+      "create_success": "Tạo mới thành công"
     },
     "login": {
       "form_title": "Đăng nhập",

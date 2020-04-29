@@ -113,7 +113,7 @@
 
         <v-col cols="12">
           <span>{{ $t('pages.ticket.description') }}</span>
-          <tiny :id="`editor`" v-model="formData.description"></tiny>
+          <tiny :id="`editor`" v-model="editor"></tiny>
         </v-col>
 
 
@@ -181,7 +181,7 @@
           </ValidationProvider>
         </v-col> -->
 
-        <v-col cols="12" sm="4">
+        <!-- <v-col cols="12" sm="4">
           <v-menu
             ref="menu"
             v-model="menu"
@@ -211,6 +211,15 @@
               <v-btn text color="primary" @click="$refs.menu.save(formData.due_date)">OK</v-btn>
             </v-date-picker>
           </v-menu>
+        </v-col> -->
+
+        <v-col cols="12" sm="4">
+          <v-datetime-picker
+            v-model="datetime"
+            :text-field-props="textFieldProps"
+            time-format="HH:mm"
+            data-format="yyyy-MM-dd"
+            />
         </v-col>
 
         <v-col cols="12">
@@ -249,12 +258,13 @@
 // import { mapGetters, mapActions } from 'vuex'
 // import { vnFilter } from '@/utils'
 import Tiny from '@/components/Editor.vue'
+import { format } from 'date-fns'
 
 const initFrom = {
   type_id: 1,
   name: '',
   description: '',
-  priority: '',
+  priority: 2,
   due_date: '',
   tags: ['AnhBeta', 'EmBeta']
 }
@@ -270,6 +280,7 @@ export default {
   data () {
     return {
       formData: Object.assign({}, initFrom),
+      editor: '',
       priority: [
         { name: 'Cao', code: 1 },
         { name: 'Trung bình', code: 2 },
@@ -277,7 +288,11 @@ export default {
       ],
       assignees: ['AnhBeta'],
       menu: false,
-      search: ""
+      search: "",
+      datetime: '',
+      textFieldProps: {
+        appendIcon: 'event'
+      }
     }
   },
   computed: {
@@ -310,9 +325,10 @@ export default {
   },
   created () {
     this.$on('init', (data) => {
-      let allowData = (({ name, number, branch, branch_id }) => ({ name, number, branch, branch_id }))(data)
+      let allowData = (({ name, type_id, description, priority, due_date, tags }) => ({ name, type_id, description, priority, due_date, tags }))(data)
       this.$refs.observer.reset();
       this.formData = Object.assign({}, initFrom, allowData)
+      this.datetime = ''
     })
   },
   mounted () {
@@ -324,6 +340,18 @@ export default {
     //     this.formData.bank_id = val.id
     //   }
     // }
+
+    'editor' (val) {
+      if (val) {
+        console.log('editor')
+        this.formData.description = val
+      }
+    },
+    'datetime' (val) {
+      if (val) {
+        this.formData.due_date = format(val, 'yyyy-MM-dd HH:mm')
+      }
+    },
   }
 
 }

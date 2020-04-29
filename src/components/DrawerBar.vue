@@ -74,7 +74,7 @@ export default {
     return {
       mainMenu: [
         {
-          icon: 'dashboard',
+          icon: 'mdil-view-dashboard',
           text: this.$t('title.dashboard'),
           route: { name: 'dashboard' },
           can_access: true

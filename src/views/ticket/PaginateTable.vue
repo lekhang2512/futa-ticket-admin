@@ -35,7 +35,7 @@
       <a @click="showDetail()">{{ item.name }}</a>
     </template>
     <template v-slot:item.description="{ item }">
-      <span> {{ item.description }}</span>
+      <span v-html="item.description"></span>
     </template>
 
     <template v-slot:item.priority="{ item }">
@@ -126,6 +126,7 @@ export default {
       console.log('showDetail')
     },
     filterStatus (code) {
+      console.log('code: ', code)
       this.filters.status = code
     },
     buildQuery () {
@@ -133,9 +134,8 @@ export default {
         limit: this.options.itemsPerPage || undefined,
         page: this.options.page || undefined,
         // sort: this.buildSort() || undefined,
-        // q: this.filters.q || undefined,
-        // status: this.filters.status,
-        // include: ['bank']
+        q: this.filters.q || undefined,
+        status: this.filters.status,
       }
     },
     buildSort () {
