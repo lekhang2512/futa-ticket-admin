@@ -97,6 +97,18 @@ export default {
               can_access: true
             }
           ]
+        },
+        {
+          icon: 'mdil-format-list-bulleted',
+          text: this.$t('title.ticket_type'),
+          route: { name: 'ticket-type' },
+          can_access: true
+        },
+        {
+          icon: 'mdil-format-list-numbers',
+          text: this.$t('title.source'),
+          route: { name: 'source' },
+          can_access: true
         }
         // {
         //   icon: 'mdil-logout mdil-24px',
