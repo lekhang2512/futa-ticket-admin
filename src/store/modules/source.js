@@ -81,7 +81,23 @@ const actions = {
     if (success) {
       dispatch('snackbar/showSnackBar', {
         color: 'success',
-        text: i18n.tc('pages.source.create_success')
+        text: i18n.tc('notify.create_success')
+      }, { root: true })
+      if (payload.cb) {
+        payload.cb(response.data)
+      }
+    } else {
+      dispatch('api/handleResponse', response, { root: true })
+    }
+  },
+  async update ({ dispatch }, payload) {
+    let sourceRepo = (new SourceRepository(window.axios))
+    let {success, response} = await sourceRepo.update(payload.id, payload.data)
+
+    if (success) {
+      dispatch('snackbar/showSnackBar', {
+        color: 'success',
+        text: i18n.tc('notify.update_success')
       }, { root: true })
       if (payload.cb) {
         payload.cb(response.data)
@@ -98,7 +114,7 @@ const actions = {
     if (success) {
       dispatch('snackbar/showSnackBar', {
         color: 'success',
-        text: i18n.tc('pages.source.delete_success')
+        text: i18n.tc('notify.delete_success')
       }, { root: true })
       if (payload.cb) {
         payload.cb(response.data)

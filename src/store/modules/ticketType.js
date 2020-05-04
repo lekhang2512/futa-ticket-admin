@@ -81,7 +81,7 @@ const actions = {
     if (success) {
       dispatch('snackbar/showSnackBar', {
         color: 'success',
-        text: i18n.tc('pages.ticket_type.create_success')
+        text: i18n.tc('notify.create_success')
       }, { root: true })
       if (payload.cb) {
         payload.cb(response.data)
@@ -97,7 +97,7 @@ const actions = {
     if (success) {
       dispatch('snackbar/showSnackBar', {
         color: 'success',
-        text: i18n.tc('pages.ticket_type.update_success')
+        text: i18n.tc('notify.update_success')
       }, { root: true })
       if (payload.cb) {
         payload.cb(response.data)
@@ -114,7 +114,7 @@ const actions = {
     if (success) {
       dispatch('snackbar/showSnackBar', {
         color: 'success',
-        text: i18n.tc('pages.ticket_type.delete_success')
+        text: i18n.tc('notify.delete_success')
       }, { root: true })
       if (payload.cb) {
         payload.cb(response.data)

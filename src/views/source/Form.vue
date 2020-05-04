@@ -32,12 +32,13 @@
         <v-col cols="12">
           <div class="d-flex justify-end">
             <v-btn
+              small
               :disabled="invalid"
               :loading="!!submitting"
               color="primary"
               @click="passes(submit)"
             >
-              {{ type === 'create' ? $t('actions.create') : $t('actions.update')}}
+              {{ $t('actions.create') }}
             </v-btn>
           </div>
         </v-col>

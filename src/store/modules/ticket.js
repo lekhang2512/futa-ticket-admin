@@ -61,7 +61,7 @@ const actions = {
     if (success) {
       dispatch('snackbar/showSnackBar', {
         color: 'success',
-        text: i18n.tc('pages.ticket.create_success')
+        text: i18n.tc('notify.create_success')
       }, { root: true })
       if (payload.cb) {
         payload.cb(response.data)

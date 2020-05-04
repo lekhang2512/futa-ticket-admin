@@ -29,7 +29,27 @@
       <span> {{ data.map(function(x) {return x.id }).indexOf(item.id) + 1}}</span>
     </template>
     <template v-slot:item.name="{ item }">
-      <a @click="showDetail()">{{ item.name }}</a>
+      <v-edit-dialog
+        :return-value.sync="item.name"
+        @save="save(item.id, item.name)"
+        >
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <span v-on="on">{{ item.name }}</span>
+           </template>
+           <span>Click để sửa</span>
+         </v-tooltip>
+        <template v-slot:input>
+          <v-text-field
+            v-model="item.name"
+            :rules="[max25chars]"
+            label="Edit"
+            single-line
+            counter
+          ></v-text-field>
+        </template>
+      </v-edit-dialog>
+
     </template>
     <template v-slot:item.created_at="{ item }">
       <span>{{ item.created_at }}</span>
@@ -70,7 +90,8 @@ export default {
         { text: this.$t('pages.ticket_type.name'), value: 'name', sortable: false },
         { text: this.$t('pages.common.created_at'), value: 'created_at', sortable: false },
         { text: this.$t('actions.label'), value: 'actions', sortable: false }
-      ]
+      ],
+      max25chars: v => v.length <= 25 || 'Tối đa 25 ký tự',
     }
   },
   computed: {
@@ -88,10 +109,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('source', ['getByQuery']),
-    showDetail () {
-      console.log('showDetail')
-    },
+    ...mapActions('source', ['getAll', 'update']),
     buildQuery () {
       return {
         limit: this.options.itemsPerPage || undefined,
@@ -129,9 +147,17 @@ export default {
       }
     },
     fetchData () {
-      this.getByQuery({
+      this.getAll({
         query: this.buildQuery(),
         cb: () => {}
+      })
+    },
+    save (id, name) {
+      this.update({
+        id: id,
+        data: {
+          name: name
+        }
       })
     }
   },
@@ -163,7 +189,4 @@ export default {
 </script>
 
 <style lang="scss">
-  .text-start:nth-child(6) {
-    text-align: center !important;
-  }
 </style>

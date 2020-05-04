@@ -1,6 +1,5 @@
 <template>
   <fragment>
-    {{ item }}
     <edit-button
       @click="actionEdit(item)"
     />

@@ -83,6 +83,7 @@
         <v-col cols="12">
           <div class="d-flex justify-end">
             <v-btn
+              small
               :disabled="invalid"
               :loading="!!submitting"
               color="primary"
