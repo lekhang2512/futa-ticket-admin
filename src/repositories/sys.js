@@ -2,7 +2,7 @@ import BaseRepository from './base'
 
 class SysRepository extends BaseRepository {
   async permissions (params) {
-    let url = '/sys/permissions'
+    let url = '/permissions'
     try {
       let response = await this.httpClient.get(url, params)
       return this.success(response.data)

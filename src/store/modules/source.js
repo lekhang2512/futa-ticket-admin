@@ -36,7 +36,7 @@ const state = {
  * actions
  */
 const actions = {
-  async getByQuery ({ dispatch, commit }, payload) {
+  async getAll ({ dispatch, commit }, payload) {
     let sourceRepo = (new SourceRepository(window.axios))
 
     commit(SET_SOURCES_LOADING, true)

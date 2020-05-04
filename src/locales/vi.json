@@ -53,7 +53,8 @@
       "filter_query": "Tìm kiếm ...",
       "filter_status": "Tìm kiếm trạng thái",
       "create_success": "Tạo mới thành công",
-      "issue_type": "Loại sự cố"
+      "issue_type": "Loại sự cố",
+      "source": "Nguồn"
     },
     "ticket_type": {
       "name": "Tiêu đề",
@@ -65,6 +66,7 @@
       "filter_query": "Tìm kiếm ...",
       "filter_status": "Tìm kiếm trạng thái",
       "create_success": "Tạo mới thành công",
+      "update_success": "Cập nhật thành công",
       "delete_success": "Xóa thành công"
     },
     "source": {

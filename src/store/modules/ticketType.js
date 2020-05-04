@@ -90,6 +90,22 @@ const actions = {
       dispatch('api/handleResponse', response, { root: true })
     }
   },
+  async update ({ dispatch }, payload) {
+    let ticketRepo = (new TicketTypeRepository(window.axios))
+    let {success, response} = await ticketRepo.update(payload.id, payload.data)
+
+    if (success) {
+      dispatch('snackbar/showSnackBar', {
+        color: 'success',
+        text: i18n.tc('pages.ticket_type.update_success')
+      }, { root: true })
+      if (payload.cb) {
+        payload.cb(response.data)
+      }
+    } else {
+      dispatch('api/handleResponse', response, { root: true })
+    }
+  },
   async delete ({ dispatch }, payload) {
     let query                     = payload.query || {}
     let ticketTypeRepo = (new TicketTypeRepository(window.axios))
