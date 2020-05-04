@@ -52,15 +52,15 @@
           </ValidationProvider>
         </v-col>
 
-    <!--     <v-col cols="12" sm="4">
+        <v-col cols="12" sm="4">
           <ValidationProvider
             :name="$t('pages.ticket.assignee')"
             rules="required"
             v-slot="{ errors }"
             >
             <v-autocomplete
-              name="type_id"
-              v-model="formData.type_id"
+              name="role"
+              v-model="formData.role"
               :items="roles"
               item-text="name"
               item-value="id"
@@ -78,7 +78,7 @@
               </template>
             </v-autocomplete>
           </ValidationProvider>
-        </v-col> -->
+        </v-col>
 
         <v-col cols="12">
           <div class="d-flex justify-end">
@@ -99,12 +99,14 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import { pick } from 'lodash'
-// import { mapActions, mapGetters } from 'vuex'
+import { vnFilter } from '@/utils'
 
 const initFrom = {
   name: '',
-  description: ''
+  description: '',
+  role: ''
 }
 export default {
   name: 'TicketTypeForm',
@@ -124,10 +126,10 @@ export default {
     }
   },
   computed: {
-    // ...mapGetters('role', ['roles'])
+    ...mapGetters('role', ['roles'])
   },
   methods: {
-    // ...mapActions('role', ['getByQuery']),
+    ...mapActions('role', ['getByQuery']),
     submit () {
       this.$emit('submit', this.getFormData())
     },
@@ -139,10 +141,21 @@ export default {
     },
     getType () {
       return this.type || 'create'
-    }
+    },
+    fetchRole () {
+      if (!this.roles.length) {
+        this.getByQuery({
+          query: { limit: -1 }
+        })
+      }
+    },
+    filterType (item, queryText) {
+      return vnFilter(item.name.toLocaleLowerCase()).indexOf(vnFilter(queryText.toLocaleLowerCase())) > -1
+    },
   },
   mounted () {
     this.$refs.name.focus()
+    this.fetchRole()
   },
   created () {
     this.$on('init', (data) => {

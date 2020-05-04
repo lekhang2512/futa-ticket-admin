@@ -64,6 +64,9 @@ export default {
     },
     initForm () {
       let data = Object.assign({}, this.ticketType)
+      // if (this.ticketType.role) {
+      //   data.role = this.ticketType.role
+      // }
       this.$refs.form.$emit('init', data)
     }
   },

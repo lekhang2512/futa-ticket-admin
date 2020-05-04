@@ -1,5 +1,15 @@
 <template>
   <v-toolbar-items>
+    <div class="text-center" v-if="$vuetify.breakpoint.xsOnly">
+      <v-btn
+        color="primary"
+        v-if="access('ticket', 'create')"
+        @click="$router.push({ name: 'ticket-create' }).catch(err => { err })"
+        >
+        Tạo Ticket
+      </v-btn>
+    </div>
+
     <!-- <div class="v-btn__content app-bar-text ml-1">
       <span class="font-weight-bold">¥ {{$t('pages.app.rate_today')}}</span>: 3,390
     </div>

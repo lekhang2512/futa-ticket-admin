@@ -6,15 +6,16 @@
       <span class="title font-weight-bold">-Dropship</span>
     </v-toolbar-title>
     <!-- <cart-app-bar /> -->
-    <v-spacer />
     <v-btn
+      class="ml-8"
       small
       color="primary"
-      v-if="access('ticket', 'create')"
+      v-if="access('ticket', 'create') && $vuetify.breakpoint.smAndUp"
       @click="$router.push({ name: 'ticket-create' }).catch(err => { err })"
       >
-      Tạo Ticket
+      Tạo sự cố
     </v-btn>
+    <v-spacer />
     <info-app-bar class="d-none d-md-flex" />
     <!-- <notify-app-bar /> -->
     <account-app-bar />

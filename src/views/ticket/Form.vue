@@ -181,6 +181,7 @@ import { mapGetters, mapActions } from 'vuex'
 import { vnFilter } from '@/utils'
 import Tiny from '@/components/Editor.vue'
 import { format } from 'date-fns'
+import { pick } from 'lodash'
 
 const initFrom = {
   type_id: 1,
@@ -251,7 +252,7 @@ export default {
   },
   created () {
     this.$on('init', (data) => {
-      let allowData = (({ name, type_id, description, priority, due_date, tags }) => ({ name, type_id, description, priority, due_date, tags }))(data)
+      let allowData = pick(data, 'name', 'type_id', 'description', 'priority', 'due_date', 'tags')
       this.$refs.observer.reset();
       this.formData = Object.assign({}, initFrom, allowData)
       this.datetime = ''

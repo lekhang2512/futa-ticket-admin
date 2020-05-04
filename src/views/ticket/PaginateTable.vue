@@ -115,7 +115,6 @@ export default {
     ...mapGetters('table', ['itemsPerPageOptions', 'itemsPerPage']),
     data: {
       get () {
-        console.log('tickets: ', this.tickets)
         return this.tickets
       }
     },
