@@ -22,7 +22,7 @@ export default [
     }
   },
   {
-    path: '/ticket-types/update',
+    path: '/ticket-types/:id/update',
     name: 'ticket-type-update',
     component: () => import('@/views/ticketType/Update.vue'),
     meta: {

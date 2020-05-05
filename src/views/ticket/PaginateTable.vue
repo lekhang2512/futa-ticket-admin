@@ -63,6 +63,10 @@
     <template v-slot:item.due_date="{ item }">
       <span>{{ item.due_date }}</span>
     </template>
+
+    <template v-slot:item.actions="{ item }">
+      <action-bar @success="fetchData" :item="item" />
+    </template>
   </v-data-table>
 </template>
 <script>
@@ -70,12 +74,14 @@ import { mapGetters, mapActions } from 'vuex'
 import { forEach, isEqual } from 'lodash'
 import FilterBar from './FilterBar.vue'
 import { ticketStatusColor, ticketPriorityColor } from '@/helpers/variables'
+import ActionBar from './ActionBar.vue'
 
 export default {
   name: 'TicketPaginateTable',
   props: [],
   components: {
-    FilterBar
+    FilterBar,
+    ActionBar
   },
   data () {
     return {
@@ -98,7 +104,7 @@ export default {
         { text: this.$t('pages.common.status'), value: 'status', sortable: false },
         { text: this.$t('pages.common.created_at'), value: 'created_at', sortable: false },
         { text: this.$t('pages.ticket.due_date'), value: 'due_date', sortable: false },
-        // { text: this.$t('pages.common.action'), value: 'actions', sortable: false },
+        { text: this.$t('actions.label'), value: 'actions', sortable: false }
       ],
       ticketStatusColor: ticketStatusColor,
       ticketPriorityColor: ticketPriorityColor
@@ -109,6 +115,7 @@ export default {
     ...mapGetters('table', ['itemsPerPageOptions', 'itemsPerPage']),
     data: {
       get () {
+        console.log('tickets: ', this.tickets)
         return this.tickets
       }
     },
@@ -129,6 +136,7 @@ export default {
     },
     buildQuery () {
       return {
+        include: 'permissions',
         limit: this.options.itemsPerPage || undefined,
         page: this.options.page || undefined,
         // sort: this.buildSort() || undefined,

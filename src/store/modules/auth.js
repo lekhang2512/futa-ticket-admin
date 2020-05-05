@@ -71,6 +71,7 @@ const actions = {
     let {success, response} = await userRepo.profile(query)
     if (success) {
       commit(SET_USER, response.data)
+      dispatch('getPermissions', { root: true })
     } else {
       dispatch('api/handleResponse', response, { root: true })
       // if (response.code === 401) {

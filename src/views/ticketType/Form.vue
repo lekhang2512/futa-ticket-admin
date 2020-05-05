@@ -52,9 +52,38 @@
           </ValidationProvider>
         </v-col>
 
+    <!--     <v-col cols="12" sm="4">
+          <ValidationProvider
+            :name="$t('pages.ticket.assignee')"
+            rules="required"
+            v-slot="{ errors }"
+            >
+            <v-autocomplete
+              name="type_id"
+              v-model="formData.type_id"
+              :items="roles"
+              item-text="name"
+              item-value="id"
+              :label="$t('pages.ticket.assignee')"
+              :messages="errors[0] || ''"
+              :error="!!errors.length"
+              :loading="false"
+              :filter="filterType"
+              clearable
+              clear-icon="close"
+              class="input-required"
+            >
+              <template slot="selection" slot-scope="data">
+                {{ data.item.name }}
+              </template>
+            </v-autocomplete>
+          </ValidationProvider>
+        </v-col> -->
+
         <v-col cols="12">
           <div class="d-flex justify-end">
             <v-btn
+              small
               :disabled="invalid"
               :loading="!!submitting"
               color="primary"
@@ -95,8 +124,10 @@ export default {
     }
   },
   computed: {
+    // ...mapGetters('role', ['roles'])
   },
   methods: {
+    // ...mapActions('role', ['getByQuery']),
     submit () {
       this.$emit('submit', this.getFormData())
     },

@@ -39,7 +39,6 @@ export default {
   methods: {
     ...mapActions('source', ['create']),
     async submit (data) {
-      console.log('submit')
       this.btnLoading = true
       await this.create({
         data: data,

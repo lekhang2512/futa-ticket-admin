@@ -18,7 +18,7 @@ export default {
     disabled: {
       type: Boolean,
       default: () => {
-        return true
+        return false
       }
     },
   }

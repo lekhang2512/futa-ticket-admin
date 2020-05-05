@@ -163,6 +163,7 @@ const mutations = {
   },
   [SET_INITIAL_STATE]: (state) => {
     state.list = initState().list
+    state.detail = initState().detail
     state.pagination = initState().pagination
   }
 }

@@ -2,7 +2,7 @@
   <ValidationObserver v-slot="{ invalid, passes }" ref="observer">
     <v-form @submit.prevent="passes(submit)">
       <v-row dense>
-        <v-col cols="12" sm="6">
+        <v-col cols="12" sm="4">
           <ValidationProvider
             :name="$t('pages.ticket.name')"
             rules="required"
@@ -19,12 +19,12 @@
           </ValidationProvider>
         </v-col>
 
-        <v-col cols="12" sm="6">
+        <v-col cols="12" sm="4">
           <ValidationProvider
             :name="$t('pages.ticket.issue_type')"
             rules="required"
             v-slot="{ errors }"
-          >
+            >
             <v-autocomplete
               name="type_id"
               v-model="formData.type_id"
@@ -34,7 +34,6 @@
               :label="$t('pages.ticket.issue_type')"
               :messages="errors[0] || ''"
               :error="!!errors.length"
-              return-object
               :loading="false"
               :filter="filterType"
               clearable
@@ -48,12 +47,6 @@
           </ValidationProvider>
         </v-col>
 
-        <v-col cols="12">
-          <span>{{ $t('pages.ticket.description') }}</span>
-          <tiny :id="`editor`" v-model="editor"></tiny>
-        </v-col>
-
-
         <v-col cols="12" sm="4">
           <v-select
             v-model="formData.priority"
@@ -61,8 +54,12 @@
             item-text="name"
             item-value="code"
             :label="$t('pages.ticket.priority')"
-            single-line
           ></v-select>
+        </v-col>
+
+        <v-col cols="12">
+          <span>{{ $t('pages.ticket.description') }}</span>
+          <tiny :id="`editor`" v-model="editor"></tiny>
         </v-col>
 
         <v-col cols="12" sm="4">
@@ -124,7 +121,28 @@
             :text-field-props="textFieldProps"
             time-format="HH:mm"
             data-format="yyyy-MM-dd"
+            label="Ngày đáo hạn"
             />
+        </v-col>
+
+        <v-col cols="12" sm="4">
+          <v-autocomplete
+            name="source_id"
+            v-model="formData.source_id"
+            :items="sources"
+            item-text="name"
+            item-value="id"
+            :label="$t('pages.ticket.source')"
+            :loading="false"
+            :filter="filterSource"
+            clearable
+            clear-icon="close"
+            class="input-required"
+            >
+            <template slot="selection" slot-scope="data">
+              {{ data.item.name }}
+            </template>
+          </v-autocomplete>
         </v-col>
 
         <v-col cols="12">
@@ -136,9 +154,7 @@
             chips
             deletable-chips
             class="tag-input"
-            :search-input.sync="search"
-            @keyup.tab="updateTags"
-            @paste="updateTags">
+           >
           </v-combobox>
         </v-col>
 
@@ -155,7 +171,8 @@
         </v-col>
       </v-row>
     </v-form>
-  {{ formData }}
+
+    {{ formData }}
   </ValidationObserver>
 
 </template>
@@ -171,7 +188,8 @@ const initFrom = {
   description: '',
   priority: 2,
   due_date: '',
-  tags: ['AnhBeta', 'EmBeta']
+  tags: ['AnhBeta', 'EmBeta'],
+  source_id: 1
 }
 
 export default {
@@ -202,20 +220,13 @@ export default {
   },
   computed: {
     ...mapGetters('ticketType', ['ticketTypes']),
-    // ...mapGetters('bank', ['banks', 'loadBank'])
+    ...mapGetters('source', ['sources']),
   },
   methods: {
     ...mapActions('ticketType', ['getByQuery']),
+    ...mapActions('source', ['getAll']),
     submit () {
       this.$emit('submit', this.formData)
-    },
-    updateTags() {
-      // this.$nextTick(() => {
-      //   this.tags.push(...this.search.split(","))
-      //   this.$nextTick(() => {
-      //     this.search = "";
-      //   });
-      // });
     },
     fetchType () {
       if (!this.ticketTypes.length) {
@@ -224,7 +235,17 @@ export default {
         })
       }
     },
+    fetchSource () {
+      if (!this.sources.length) {
+        this.getAll({
+          query: { limit: -1 }
+        })
+      }
+    },
     filterType (item, queryText) {
+      return vnFilter(item.name.toLocaleLowerCase()).indexOf(vnFilter(queryText.toLocaleLowerCase())) > -1
+    },
+    filterSource (item, queryText) {
       return vnFilter(item.name.toLocaleLowerCase()).indexOf(vnFilter(queryText.toLocaleLowerCase())) > -1
     },
   },
@@ -238,6 +259,7 @@ export default {
   },
   mounted () {
     this.fetchType()
+    this.fetchSource()
   },
   watch: {
     'formData.type_id' (val) {

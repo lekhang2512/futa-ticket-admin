@@ -10,6 +10,7 @@
     <v-btn
       small
       color="primary"
+      v-if="access('ticket', 'create')"
       @click="$router.push({ name: 'ticket-create' }).catch(err => { err })"
       >
       Tạo Ticket

@@ -63,8 +63,8 @@
       "tag": "Thẻ",
       "filter_query": "Tìm kiếm ...",
       "filter_status": "Tìm kiếm trạng thái",
-      "create_success": "Tạo mới thành công",
-      "issue_type": "Loại sự cố"
+      "issue_type": "Loại sự cố",
+      "source": "Nguồn"
     },
     "ticket_type": {
       "name": "Tiêu đề",
@@ -74,9 +74,7 @@
       "due_date": "Ngày hết hạn",
       "assignee": "Người phụ trách",
       "filter_query": "Tìm kiếm ...",
-      "filter_status": "Tìm kiếm trạng thái",
-      "create_success": "Tạo mới thành công",
-      "delete_success": "Xóa thành công"
+      "filter_status": "Tìm kiếm trạng thái"
     },
     "source": {
       "name": "Tiêu đề",
@@ -86,9 +84,7 @@
       "due_date": "Ngày hết hạn",
       "assignee": "Người phụ trách",
       "filter_query": "Tìm kiếm ...",
-      "filter_status": "Tìm kiếm trạng thái",
-      "create_success": "Tạo mới thành công",
-      "delete_success": "Xóa thành công"
+      "filter_status": "Tìm kiếm trạng thái"
     },
     "user": {
       "name": "Tên",
@@ -222,6 +218,11 @@
     "verify_email": "Gửi lại email xác nhận",
     "require_supported": "Yêu cầu hỗ trợ",
     "label": "Hành động"
+  },
+  "notify": {
+    "create_success": "Tạo mới thành công",
+    "update_success": "Cập nhật thành công",
+    "delete_success": "Xóa thành công"
   },
   "confirms": {
     "delete": "Bạn chắc chắn muốn xoá?"
