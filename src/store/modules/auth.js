@@ -51,16 +51,19 @@ const actions = {
     }
   },
   async logout ({dispatch}) {
-    let userRepo = (new UserRepository(window.axios))
-    let {success, response} = await userRepo.logout()
+    // let userRepo = (new UserRepository(window.axios))
+    // let {success, response} = await userRepo.logout()
 
-    if (success) {
-      TokenRepository.removeTokenFromStorage()
-      dispatch('resetState', {}, { root: true })
-      router.push({'name': 'login'})
-    } else {
-      dispatch('api/handleResponse', response, { root: true })
-    }
+    // if (success) {
+    //   TokenRepository.removeTokenFromStorage()
+    //   dispatch('resetState', {}, { root: true })
+    //   router.push({'name': 'login'})
+    // } else {
+    //   dispatch('api/handleResponse', response, { root: true })
+    // }
+    TokenRepository.removeTokenFromStorage()
+    dispatch('resetState', {}, { root: true })
+    router.push({'name': 'login'})
   },
   async profile ({ dispatch, commit }) {
     let userRepo = (new UserRepository(window.axios))

@@ -1,6 +1,11 @@
 import BaseRepository from './base'
 
 class UserRepository extends BaseRepository {
+
+  url () {
+    return this.apiVersion() + '/users'
+  }
+
   async login (credential, query = {}, headers = {}) {
     let url = '/login'
     try {

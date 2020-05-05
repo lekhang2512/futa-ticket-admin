@@ -9,8 +9,19 @@
     "source": "Danh sách nguồn",
     "source_create": "Tạo mới nguồn",
     "source_duplicate": "Nhân bản nguồn",
-    "source_update": "Cập nhật mới nguồn",
+    "source_update": "Cập nhật nguồn",
     "forgot_password": "Quên mật khẩu",
+
+    "user": "Danh sách tài khoản",
+    "user_create": "Tạo mới tài khoản",
+    "user_duplicate": "Nhân bản tài khoản",
+    "user_update": "Cập nhật tài khoản",
+
+    "role": "Danh sách vai trò",
+    "role_create": "Tạo mới vai trò",
+    "role_duplicate": "Nhân bản vai trò",
+    "role_update": "Cập nhật vai trò",
+
     "dashboard": "Bảng điều khiển",
     "profile": "Thông tin cá nhân",
     "change_password": "Đổi mật khẩu",
@@ -77,6 +88,24 @@
       "filter_query": "Tìm kiếm ...",
       "filter_status": "Tìm kiếm trạng thái",
       "create_success": "Tạo mới thành công",
+      "delete_success": "Xóa thành công"
+    },
+    "user": {
+      "name": "Tên",
+      "phone": "Số điện thoại",
+      "address": "Địa chỉ",
+      "filter_query": "Tìm kiếm ...",
+      "filter_status": "Tìm kiếm trạng thái",
+      "create_success": "Tạo mới thành công",
+      "update_success": "Cập nhật thành công",
+      "delete_success": "Xóa thành công"
+    },
+    "role": {
+      "name": "Tên",
+      "filter_query": "Tìm kiếm ...",
+      "filter_status": "Tìm kiếm trạng thái",
+      "create_success": "Tạo mới thành công",
+      "update_success": "Cập nhật thành công",
       "delete_success": "Xóa thành công"
     },
     "login": {
