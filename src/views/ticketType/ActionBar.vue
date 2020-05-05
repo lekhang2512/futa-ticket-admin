@@ -7,7 +7,7 @@
       @click="actionDuplicate(item)"
     />
     <delete-button
-      :message="`${$t('confirms.delete')} ${$t('title.ticket_type').toLowerCase()}: ${item.name}`"
+      :message="`${$t('confirms.delete')} ${$t('pages.ticket_type.ticket_type').toLowerCase()}: ${item.name}?`"
       @click="actionDelete(item)"
     />
   </fragment>

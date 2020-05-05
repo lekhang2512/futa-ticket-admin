@@ -34,6 +34,9 @@
     <template v-slot:item.description="{ item }">
       <span>{{ item.description }}</span>
     </template>
+    <template v-slot:item.type_txt="{ item }">
+      <span>{{ item.type_txt }}</span>
+    </template>
     <template v-slot:item.created_at="{ item }">
       <span>{{ item.created_at }}</span>
     </template>
@@ -73,6 +76,7 @@ export default {
         { text: '#', value: 'index', sortable: false },
         { text: this.$t('pages.ticket_type.name'), value: 'name', sortable: false },
         { text: this.$t('pages.ticket_type.description'), value: 'description', sortable: false },
+        { text: this.$t('pages.ticket_type.type'), value: 'type_txt', sortable: false },
         { text: this.$t('pages.common.created_at'), value: 'created_at', sortable: false },
         { text: this.$t('actions.label'), value: 'actions', sortable: false }
       ]

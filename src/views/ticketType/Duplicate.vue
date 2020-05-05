@@ -5,13 +5,13 @@
          <v-card>
           <v-toolbar dense>
             <back-button @click="() => { $router.back() }" />
-            <v-toolbar-title>{{$t('title.ticket_type_duplicate')}}</v-toolbar-title>
+            <v-toolbar-title>{{$t('title.ticket_type_duplicate')}}: {{ ticketType.name }}</v-toolbar-title>
           </v-toolbar>
 
           <v-card-text>
             <Form
               ref="form"
-              type="create"
+              typeForm="create"
               @submit="submit"
               :btn-loading="btnLoading"
             />
@@ -25,7 +25,7 @@
 </template>
 <script>
 import Form from './Form.vue'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'TicketTypeDuplicate',
   components: {
@@ -36,11 +36,15 @@ export default {
       btnLoading: false
     }
   },
+  computed: {
+    ...mapGetters('ticketType', ['ticketType'])
+  },
   methods: {
-    ...mapActions('ticketType', ['create']),
+    ...mapActions('ticketType', ['create', 'getDetail']),
     async submit (data) {
       this.btnLoading = true
-      await this.update({
+      await this.create({
+        id: this.ticketType.id,
         data: data,
         cb: () => {
           this.$refs.form.$emit('init', {})
@@ -57,7 +61,26 @@ export default {
       } catch(e) {
         return {rf: 1}
       }
+    },
+    initForm () {
+      let data = Object.assign({}, this.ticketType)
+      this.$refs.form.$emit('init', data)
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      if (!vm.ticketType.id) {
+        vm.getDetail({
+          id: vm.$route.params.id,
+          query: { },
+          cb: () => {
+            vm.initForm()
+          }
+        })
+      } else {
+        vm.initForm()
+      }
+    })
   }
 }
 </script>

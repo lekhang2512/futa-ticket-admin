@@ -12,7 +12,7 @@
           <v-card-text>
             <Form
               ref="form"
-              type="create"
+              typeForm="create"
               @submit="submit"
               :btn-loading="btnLoading"
             />

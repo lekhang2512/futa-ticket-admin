@@ -51,6 +51,31 @@
             </v-text-field>
           </ValidationProvider>
         </v-col>
+         <v-col cols="6">
+          <ValidationProvider
+            :name="$t('pages.ticket_type.type')"
+            rules="required"
+            v-slot="{ errors }"
+          >
+            <v-autocomplete
+              autocomplete='off'
+              :label="$t('pages.ticket_type.type')"
+              name="type"
+              v-model="formData.type"
+              :messages="errors[0] || ''"
+              :error="!!errors.length"
+              :items="types"
+              item-text="name"
+              item-value="code"
+            >
+              <template v-slot:label>
+                <div>
+                  {{$t('pages.ticket_type.type')}} <sup class="red--text">*</sup>
+                </div>
+              </template>
+            </v-autocomplete>
+          </ValidationProvider>
+        </v-col>
 
     <!--     <v-col cols="12" sm="4">
           <ValidationProvider
@@ -104,12 +129,13 @@ import { pick } from 'lodash'
 
 const initFrom = {
   name: '',
-  description: ''
+  description: '',
+  type: null
 }
 export default {
   name: 'TicketTypeForm',
   props: {
-    type: {
+    typeForm: {
       type: String,
       default: 'create',
     },
@@ -121,6 +147,10 @@ export default {
   data () {
     return {
       formData: Object.assign({}, initFrom),
+      types: [
+        { name: 'Hệ thống', code: 1 },
+        { name: 'Khách hàng', code: 2 }
+      ],
     }
   },
   computed: {
@@ -138,7 +168,7 @@ export default {
       return this.getType() === 'create'
     },
     getType () {
-      return this.type || 'create'
+      return this.typeForm || 'create'
     }
   },
   mounted () {
@@ -146,7 +176,7 @@ export default {
   },
   created () {
     this.$on('init', (data) => {
-      let allowData = pick(data, 'name', 'description')
+      let allowData = pick(data, 'name', 'description', 'type')
       this.$refs.observer.reset();
       this.formData = Object.assign({}, initFrom, allowData)
     })
