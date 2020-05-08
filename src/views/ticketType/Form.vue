@@ -51,7 +51,7 @@
             </v-text-field>
           </ValidationProvider>
         </v-col>
-         <v-col cols="6">
+         <v-col cols="12">
           <ValidationProvider
             :name="$t('pages.ticket_type.type')"
             rules="required"
@@ -77,33 +77,35 @@
           </ValidationProvider>
         </v-col>
 
-    <!--     <v-col cols="12" sm="4">
+        <v-col cols="12">
           <ValidationProvider
-            :name="$t('pages.ticket.assignee')"
+            :name="$t('pages.ticket_type.assignee')"
             rules="required"
             v-slot="{ errors }"
             >
             <v-autocomplete
-              name="type_id"
-              v-model="formData.type_id"
+              autocomplete='off'
+              name="role"
+              v-model="formData.roles"
               :items="roles"
               item-text="name"
               item-value="id"
-              :label="$t('pages.ticket.assignee')"
+              :label="$t('pages.ticket_type.assignee')"
               :messages="errors[0] || ''"
               :error="!!errors.length"
-              :loading="false"
-              :filter="filterType"
-              clearable
-              clear-icon="close"
-              class="input-required"
+              :loading="rolesLoading"
+              multiple
+              chips
+              deletable-chips
             >
-              <template slot="selection" slot-scope="data">
-                {{ data.item.name }}
+              <template v-slot:label>
+                <div>
+                  {{$t('pages.ticket_type.assignee')}} <sup class="red--text">*</sup>
+                </div>
               </template>
             </v-autocomplete>
           </ValidationProvider>
-        </v-col> -->
+        </v-col>
 
         <v-col cols="12">
           <div class="d-flex justify-end">
@@ -125,12 +127,13 @@
 
 <script>
 import { pick } from 'lodash'
-// import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 const initFrom = {
   name: '',
   description: '',
-  type: null
+  type: null,
+  roles: []
 }
 export default {
   name: 'TicketTypeForm',
@@ -154,10 +157,10 @@ export default {
     }
   },
   computed: {
-    // ...mapGetters('role', ['roles'])
+    ...mapGetters('role', ['roles', 'rolesLoading'])
   },
   methods: {
-    // ...mapActions('role', ['getByQuery']),
+    ...mapActions('role', ['getByQuery']),
     submit () {
       this.$emit('submit', this.getFormData())
     },
@@ -169,16 +172,25 @@ export default {
     },
     getType () {
       return this.typeForm || 'create'
+    },
+    fetchData () {
+      this.getByQuery({
+        query: { limit: -1 }
+      })
     }
   },
   mounted () {
     this.$refs.name.focus()
+    if (!this.roles.length) {
+      this.fetchData()
+    }
   },
   created () {
     this.$on('init', (data) => {
-      let allowData = pick(data, 'name', 'description', 'type')
+      let allowData = pick(data, 'name', 'description', 'type', 'roles')
       this.$refs.observer.reset();
       this.formData = Object.assign({}, initFrom, allowData)
+      this.formData .roles = []
     })
   },
   watch: {

@@ -62,6 +62,7 @@
       "description": "Mô tả",
       "priority": "Độ ưu tiên",
       "status": "Trạng thái",
+      "assignee": "Người phụ trách",
       "due_date": "Ngày hết hạn",
       "assignee": "Người phụ trách",
       "filter_query": "Tìm kiếm ...",

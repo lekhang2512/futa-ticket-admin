@@ -29,13 +29,19 @@
       <span> {{ data.map(function(x) {return x.id }).indexOf(item.id) + 1}}</span>
     </template>
     <template v-slot:item.name="{ item }">
-      <a @click="showDetail()">{{ item.name }}</a>
+      <span>{{ item.name }}</span>
+      <!-- <a @click="showDetail()">{{ item.name }}</a> -->
     </template>
     <template v-slot:item.description="{ item }">
       <span>{{ item.description }}</span>
     </template>
     <template v-slot:item.type_txt="{ item }">
       <span>{{ item.type_txt }}</span>
+    </template>
+    <template v-slot:item.role="{ item }">
+      <span v-for="(role, key) in item.roles['data']" :key="key">
+        <v-chip outlined> {{ role.name }} </v-chip>
+      </span>
     </template>
     <template v-slot:item.created_at="{ item }">
       <span>{{ item.created_at }}</span>
@@ -77,6 +83,7 @@ export default {
         { text: this.$t('pages.ticket_type.name'), value: 'name', sortable: false },
         { text: this.$t('pages.ticket_type.description'), value: 'description', sortable: false },
         { text: this.$t('pages.ticket_type.type'), value: 'type_txt', sortable: false },
+        { text: this.$t('pages.ticket_type.assignee'), value: 'role', sortable: false },
         { text: this.$t('pages.common.created_at'), value: 'created_at', sortable: false },
         { text: this.$t('actions.label'), value: 'actions', sortable: false }
       ]
@@ -103,6 +110,7 @@ export default {
     },
     buildQuery () {
       return {
+        include: ['roles'],
         limit: this.options.itemsPerPage || undefined,
         page: this.options.page || undefined,
         q: this.filters.q || undefined
