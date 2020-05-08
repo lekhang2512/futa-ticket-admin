@@ -1,6 +1,7 @@
 import {
   SET_HELPERS,
   SET_TICKETS,
+  SET_TICKET_DETAIL,
   SET_TICKETS_PAGINATION,
   SET_TICKETS_LOADING,
   SET_INITIAL_STATE
@@ -71,6 +72,25 @@ const actions = {
       dispatch('api/handleResponse', response, { root: true })
     }
   },
+  async getDetail ({ dispatch, commit }, payload) {
+    let ticketRepo = (new TicketRepository(window.axios))
+
+    commit(SET_TICKETS_LOADING, true)
+    let {success, response} = await ticketRepo.getDetail(payload.id, payload.query)
+    commit(SET_TICKETS_LOADING, false)
+
+    if (success) {
+      commit(SET_TICKET_DETAIL, response.data)
+      if (response.meta && response.meta.pagination) {
+        commit(SET_TICKETS_PAGINATION, response.meta.pagination )
+      }
+      if (payload.cb) {
+        payload.cb(response.data)
+      }
+    } else {
+      dispatch('api/handleResponse', response, { root: true })
+    }
+  },
   async create ({ dispatch }, payload) {
     let ticketRepo = (new TicketRepository(window.axios))
     let {success, response} = await ticketRepo.create(payload.data)
@@ -86,6 +106,22 @@ const actions = {
     } else {
       dispatch('api/handleResponse', response, { root: true })
     }
+  },
+  async close ({ dispatch }, payload) {
+    let ticketTypeRepo = (new TicketRepository(window.axios))
+    let {success, response} = await ticketTypeRepo.close(payload.id)
+
+    if (success) {
+      dispatch('snackbar/showSnackBar', {
+        color: 'success',
+        text: i18n.tc('notify.close_success')
+      }, { root: true })
+      if (payload.cb) {
+        payload.cb(response.data)
+      }
+    } else {
+      dispatch('api/handleResponse', response, { root: true })
+    }
   }
 }
 
@@ -93,22 +129,26 @@ const actions = {
  * mutations
  */
 const mutations = {
-  [SET_HELPERS]: (state, list) => {
-    state.helpers = list
+  [SET_HELPERS]: (state, payload) => {
+    state.helpers = payload
   },
-  [SET_TICKETS]: (state, list) => {
-    state.list = list
+  [SET_TICKETS]: (state, payload) => {
+    state.list = payload
   },
-  [SET_TICKETS_LOADING]: (state, loading) => {
-    state.listLoading = loading
+  [SET_TICKET_DETAIL]: (state, payload) => {
+    state.detail = payload
   },
-  [SET_TICKETS_PAGINATION]: (state, pagination) => {
-    state.pagination = pagination
+  [SET_TICKETS_LOADING]: (state, payload) => {
+    state.listLoading = payload
+  },
+  [SET_TICKETS_PAGINATION]: (state, payload) => {
+    state.pagination = payload
   },
   [SET_INITIAL_STATE]: (state) => {
     state.helpers = initState().helpers
     state.list = initState().list
     state.detail = initState().detail
+    state.listLoading = initState().listLoading
     state.pagination = initState().pagination
   }
 }
@@ -128,6 +168,19 @@ const getters = {
       forEach(state.helpers.statuses, (value, key) => {
         helpers.push({
           code: key,
+          name: value
+        })
+      })
+      return helpers
+    }
+    return []
+  },
+  priorities: (state) => {
+    if (state.helpers && state.helpers.priorities) {
+      let helpers = [];
+      forEach(state.helpers.priorities, (value, key) => {
+        helpers.push({
+          code: parseInt(key),
           name: value
         })
       })

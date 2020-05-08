@@ -27,7 +27,8 @@
     </template>
 
     <template v-slot:item.index="{ item }">
-      <span> {{ data.map(function(x) {return x.id }).indexOf(item.id) + 1}}</span>
+      <!-- <span> {{ data.map(function(x) {return x.id }).indexOf(item.id) + 1}}</span> -->
+      <span> {{ item.id }}</span>
     </template>
     <template v-slot:item.name="{ item }">
       <a @click="showDetail()">{{ item.name }}</a>
@@ -39,6 +40,7 @@
 
     <template v-slot:item.priority="{ item }">
       <v-chip
+        v-if="helpers.priorities_color"
         small
         dark
         :color="helpers.priorities_color[item.priority]"
@@ -49,6 +51,7 @@
 
     <template v-slot:item.status="{ item }">
       <v-chip
+        v-if="helpers.statuses_color"
         small
         dark
         :color="helpers.statuses_color[item.status]"
@@ -180,7 +183,9 @@ export default {
       })
     },
     fetchHelpers () {
-      this.getHelpers({})
+      if (!this.helpers.length) {
+        this.getHelpers({})
+      }
     }
   },
   created () {

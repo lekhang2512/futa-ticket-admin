@@ -15,6 +15,7 @@ export const SET_CONFIGS_PAGINATION      = 'CONFIG/SET_CONFIGS_PAGINATION'
 // ticket
 export const SET_HELPERS                 = 'TICKET/SET_HELPERS'
 export const SET_TICKETS                 = 'TICKET/SET_TICKETS'
+export const SET_TICKET_DETAIL           = 'TICKET/SET_TICKET_DETAIL'
 export const SET_TICKETS_LOADING         = 'TICKET/SET_TICKETS_LOADING'
 export const SET_TICKETS_PAGINATION      = 'TICKET/SET_TICKETS_PAGINATION'
 // ticket type

@@ -30,7 +30,7 @@
       <template v-slot:activator="{ on }">
         <v-btn
           v-if="access('ticket', 'closed') && item.permissions.can_closed"
-          small icon v-on="on" @click="actionEdit(item)">
+          small icon v-on="on" @click="actionClose(item)">
           <v-icon color="#000">clear</v-icon>
         </v-btn>
       </template>
@@ -40,13 +40,12 @@
     <delete-button
       v-if="access('ticket', 'delete')"
       :message="`${$t('confirms.delete')} ${$t('title.ticket_type').toLowerCase()}: ${item.name}`"
-      @click="actionDelete(item)"
     />
   </fragment>
 </template>
 
 <script>
-  import { SET_TICKET_TYPE_DETAIL } from '@/store/mutation-types'
+  import { SET_TICKET_DETAIL } from '@/store/mutation-types'
   import { mapActions, mapMutations } from 'vuex'
 
   export default {
@@ -66,8 +65,8 @@
       }
     },
     methods: {
-      ...mapActions('ticketType', ['delete']),
-      ...mapMutations('ticketType', [SET_TICKET_TYPE_DETAIL]),
+      ...mapActions('ticket', ['close']),
+      ...mapMutations('ticket', [SET_TICKET_DETAIL]),
       parseListParams () {
         if (this.isListMode) {
           return JSON.stringify(this.$route.query)
@@ -76,18 +75,14 @@
         }
       },
       actionEdit(item) {
-        this[SET_TICKET_TYPE_DETAIL](item)
-        this.$router.push({name: 'ticket-type-update', params: {id: item.id}, query: { list: this.parseListParams()}})
+        this[SET_TICKET_DETAIL](item)
+        this.$router.push({name: 'ticket-update', params: {id: item.id}, query: { list: this.parseListParams()}})
       },
-      actionDuplicate(item) {
-        this[SET_TICKET_TYPE_DETAIL](item)
-        this.$router.push({name: 'ticket-type-duplicate', params: {id: item.id}, query: { list: this.parseListParams()}})
-      },
-      async actionDelete(item) {
-        await this.delete({
+      async actionClose(item) {
+        await this.close({
           id: item.id,
           cb: () => {
-            this.$emit('success', 'delete')
+            this.$emit('success', 'close')
           }
         })
       }

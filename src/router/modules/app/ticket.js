@@ -20,5 +20,16 @@ export default [
       },
       require_auth: true
     }
-  }
+  },
+  {
+    path: '/tickets/:id/update',
+    name: 'ticket-update',
+    component: () => import('@/views/ticket/Update.vue'),
+    meta: {
+      title: {
+        i18n: 'title.ticket_update'
+      },
+      require_auth: true
+    }
+  },
 ]

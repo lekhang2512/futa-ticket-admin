@@ -2,6 +2,9 @@
   <ValidationObserver v-slot="{ invalid, passes }" ref="observer">
     <v-form @submit.prevent="passes(submit)">
       <v-row dense>
+        {{ formData }}
+        <br/>
+        <br/>
         <v-col cols="12" sm="4">
           <ValidationProvider
             :name="$t('pages.ticket.name')"
@@ -39,7 +42,7 @@
               clearable
               clear-icon="close"
               class="input-required"
-            >
+              >
               <template slot="selection" slot-scope="data">
                 {{ data.item.name }}
               </template>
@@ -50,7 +53,7 @@
         <v-col cols="12" sm="4">
           <v-select
             v-model="formData.priority"
-            :items="priority"
+            :items="priorities"
             item-text="name"
             item-value="code"
             :label="$t('pages.ticket.priority')"
@@ -59,63 +62,10 @@
 
         <v-col cols="12">
           <span>{{ $t('pages.ticket.description') }}</span>
-          <tiny :id="`editor`" v-model="editor"></tiny>
+          <tiny :id="`editor`" v-model="formData.description"></tiny>
         </v-col>
 
-        <v-col cols="12" sm="4">
-          <v-select
-            :items="assignees"
-            :label="$t('pages.ticket.assignee')"
-          ></v-select>
-        </v-col>
-
-        <!-- <v-col cols="12" sm="4">
-          <ValidationProvider
-            :name="$t('pages.ticket.assignee')"
-            rules="required"
-            v-slot="{ errors }"
-            >
-            <v-autocomplete
-              name="bank_id"
-              v-model="formData.bank_id"
-              :items="banks"
-              item-text="name"
-              item-value="id"
-              :label="$t('pages.ticket.assignee')"
-              :messages="errors[0] || ''"
-              :error="!!errors.length"
-              return-object
-              :loading="loadBank"
-              :filter="filterBank"
-              clearable
-              clear-icon="close"
-              class="input-required"
-            >
-              <template slot="selection" slot-scope="data">
-                {{ data.item.name }} - {{ data.item.code }}
-              </template>
-
-              <template v-slot:item="data">
-                <template v-if="typeof data.item !== 'object'">
-                  <v-list-item-content v-text="data.item"></v-list-item-content>
-                </template>
-                <template v-else>
-                  <v-list-item-content v-if="!$vuetify.breakpoint.xsOnly">
-                    <v-list-item-title>{{data.item.name}} - {{data.item.code}}</v-list-item-title>
-                  </v-list-item-content>
-
-                  <v-list-item-content v-else>
-                    <v-list-item-title v-html="data.item.name"></v-list-item-title>
-                    <v-list-item-subtitle v-html="data.item.code"></v-list-item-subtitle>
-                  </v-list-item-content>
-                </template>
-              </template>
-
-            </v-autocomplete>
-          </ValidationProvider>
-        </v-col> -->
-
-        <v-col cols="12" sm="4">
+        <v-col cols="12" sm="6">
           <v-datetime-picker
             v-model="datetime"
             :text-field-props="textFieldProps"
@@ -125,7 +75,7 @@
             />
         </v-col>
 
-        <v-col cols="12" sm="4">
+        <v-col cols="12" sm="6">
           <v-autocomplete
             name="source_id"
             v-model="formData.source_id"
@@ -145,7 +95,9 @@
           </v-autocomplete>
         </v-col>
 
-        <v-col cols="12">
+        {{ time }}
+
+        <!-- <v-col cols="12">
           <v-combobox
             multiple
             v-model="formData.tags"
@@ -156,25 +108,32 @@
             class="tag-input"
            >
           </v-combobox>
-        </v-col>
+        </v-col> -->
 
         <v-col cols="12">
           <div class="d-flex justify-end">
-            <button-submit
+<!--             <button-submit
               small
               :text="$t('pages.common.button_create')"
               :disabled="invalid"
               :dark="!invalid"
               :loading="btnLoading"
-              @click="passes(submit)"/>
+              @click="passes(submit)"/> -->
+
+            <v-btn
+              small
+              :disabled="invalid"
+              :loading="btnLoading"
+              color="primary"
+              @click="passes(submit)"
+              >
+              {{type ? $t('actions.create') : $t('actions.update')}}
+            </v-btn>
           </div>
         </v-col>
       </v-row>
     </v-form>
-
-    {{ formData }}
   </ValidationObserver>
-
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
@@ -184,13 +143,13 @@ import { format } from 'date-fns'
 import { pick } from 'lodash'
 
 const initFrom = {
-  type_id: 1,
+  type_id: '',
   name: '',
   description: '',
-  priority: 2,
+  priority: '',
   due_date: '',
-  tags: ['AnhBeta', 'EmBeta'],
-  source_id: 1
+  tags: [],
+  source_id: ''
 }
 
 export default {
@@ -204,26 +163,23 @@ export default {
   data () {
     return {
       formData: Object.assign({}, initFrom),
-      editor: '',
-      priority: [
-        { name: 'Cao', code: 1 },
-        { name: 'Trung bình', code: 2 },
-        { name: 'Thấp', code: 3 },
-      ],
       assignees: ['AnhBeta'],
       menu: false,
       search: "",
       datetime: '',
       textFieldProps: {
         appendIcon: 'event'
-      }
+      },
+      time: ''
     }
   },
   computed: {
     ...mapGetters('ticketType', ['ticketTypes']),
+    ...mapGetters('ticket', ['priorities']),
     ...mapGetters('source', ['sources']),
   },
   methods: {
+    ...mapActions('ticket', ['getHelpers']),
     ...mapActions('ticketType', ['getByQuery']),
     ...mapActions('source', ['getAll']),
     submit () {
@@ -232,8 +188,16 @@ export default {
     fetchType () {
       if (!this.ticketTypes.length) {
         this.getByQuery({
-          query: { limit: -1 }
+          query: {
+            limit: -1,
+            include: 'roles'
+          }
         })
+      }
+    },
+    fetchHelpers () {
+      if (!this.priorities.length) {
+        this.getHelpers({})
       }
     },
     fetchSource () {
@@ -248,17 +212,18 @@ export default {
     },
     filterSource (item, queryText) {
       return vnFilter(item.name.toLocaleLowerCase()).indexOf(vnFilter(queryText.toLocaleLowerCase())) > -1
-    },
+    }
   },
   created () {
     this.$on('init', (data) => {
-      let allowData = pick(data, 'name', 'type_id', 'description', 'priority', 'due_date', 'tags')
+      let allowData = pick(data, 'name', 'type_id', 'description', 'priority', 'due_date', 'source_id', 'tags')
       this.$refs.observer.reset();
       this.formData = Object.assign({}, initFrom, allowData)
       this.datetime = ''
     })
   },
   mounted () {
+    this.fetchHelpers()
     this.fetchType()
     this.fetchSource()
   },
@@ -276,6 +241,7 @@ export default {
     },
     'datetime' (val) {
       if (val) {
+        this.time = val
         this.formData.due_date = format(val, 'yyyy-MM-dd HH:mm')
       }
     },

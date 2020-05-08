@@ -28,6 +28,7 @@
     "edit_profile": "Thay đổi thông tin cá nhân",
     "ticket": "Danh sách sự cố",
     "ticket_create": "Tạo mới sự cố",
+    "ticket_update": "Cập nhật sự cố",
     "register": "Đăng ký",
     "register_success": "Đăng ký tài khoản thành công",
     "verify_email": "Xác nhận tài khoản",
@@ -228,7 +229,8 @@
   "notify": {
     "create_success": "Tạo mới thành công",
     "update_success": "Cập nhật thành công",
-    "delete_success": "Xóa thành công"
+    "delete_success": "Xóa thành công",
+    "close_success": "Đóng thành công"
   },
   "confirms": {
     "delete": "Bạn chắc chắn muốn xoá"

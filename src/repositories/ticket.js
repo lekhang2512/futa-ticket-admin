@@ -5,6 +5,15 @@ class TicketRepository extends BaseRepository {
     return this.apiVersion() + '/tickets'
   }
 
+  async getHelpers (query = {}, headers = {}) {
+    let url = this.url() + '/helpers'
+    try {
+      let response = await this.httpClient.get(url, { params: query, headers: headers })
+      return this.success(response.data)
+    } catch(e) {
+      return this.handlerHttpError(e)
+    }
+  }
   async create (data, query = {}, headers = {}) {
     try {
       let response = await this.httpClient.post(this.url(), data, { params: query, headers: headers })
@@ -13,10 +22,9 @@ class TicketRepository extends BaseRepository {
       return this.handlerHttpError(e)
     }
   }
-  async getHelpers (query = {}, headers = {}) {
-    let url = this.url() + '/helpers'
+  async close (id, query = {}, headers = {}) {
     try {
-      let response = await this.httpClient.get(url, { params: query, headers: headers })
+      let response = await this.httpClient.put(`${this.url()}/${id}/closed`, { params: query, headers: headers })
       return this.success(response.data)
     } catch(e) {
       return this.handlerHttpError(e)
