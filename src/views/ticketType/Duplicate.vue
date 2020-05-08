@@ -62,8 +62,9 @@ export default {
         return {rf: 1}
       }
     },
-    initForm () {
+    async initForm () {
       let data = Object.assign({}, this.ticketType)
+      data.roles = this.ticketType.roles['data'].map((item) => { return item.id })
       this.$refs.form.$emit('init', data)
     }
   },
@@ -72,7 +73,7 @@ export default {
       if (!vm.ticketType.id) {
         vm.getDetail({
           id: vm.$route.params.id,
-          query: { },
+          query: { include: 'roles' },
           cb: () => {
             vm.initForm()
           }
