@@ -1,12 +1,15 @@
 <template>
   <fragment>
     <edit-button
+      v-if="access('ticket_type', 'update')"
       @click="actionEdit(item)"
     />
     <duplicate-button
+      v-if="access('ticket_type', 'create')"
       @click="actionDuplicate(item)"
     />
     <delete-button
+      v-if="access('ticket_type', 'delete')"
       :message="`${$t('confirms.delete')} ${$t('pages.ticket_type.ticket_type').toLowerCase()}: ${item.name}?`"
       @click="actionDelete(item)"
     />

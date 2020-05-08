@@ -1,12 +1,15 @@
 <template>
   <fragment>
     <edit-button
+      v-if="access('source', 'update')"
       @click="actionEdit(item)"
     />
     <duplicate-button
+      v-if="access('source', 'create')"
       @click="actionDuplicate(item)"
     />
     <delete-button
+      v-if="access('source', 'delete')"
       :message="`${$t('confirms.delete')} ${$t('pages.source.source').toLowerCase()}: ${item.name}?`"
       @click="actionDelete(item)"
     />
