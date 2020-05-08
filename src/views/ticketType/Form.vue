@@ -77,7 +77,7 @@
           </ValidationProvider>
         </v-col>
 
-        <v-col cols="12" sm="4">
+        <v-col cols="12">
           <ValidationProvider
             :name="$t('pages.ticket_type.assignee')"
             rules="required"
