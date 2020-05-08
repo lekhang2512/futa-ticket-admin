@@ -122,8 +122,6 @@
         </v-col>
       </v-row>
     </v-form>
-
-    {{ formData }}
   </ValidationObserver>
 </template>
 
