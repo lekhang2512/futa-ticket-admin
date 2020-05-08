@@ -5,13 +5,13 @@
          <v-card>
           <v-toolbar dense>
             <back-button @click="() => { $router.back() }" />
-            <v-toolbar-title>{{$t('title.ticket_type_duplicate')}}: {{ ticketType.name }}</v-toolbar-title>
+            <v-toolbar-title>{{$t('title.source_update')}}: {{ source.name }}</v-toolbar-title>
           </v-toolbar>
 
           <v-card-text>
             <Form
               ref="form"
-              typeForm="create"
+              type="update"
               @submit="submit"
               :btn-loading="btnLoading"
             />
@@ -27,7 +27,7 @@
 import Form from './Form.vue'
 import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: 'TicketTypeDuplicate',
+  name: 'SourceUpdate',
   components: {
     Form
   },
@@ -37,18 +37,18 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('ticketType', ['ticketType'])
+    ...mapGetters('source', ['source'])
   },
   methods: {
-    ...mapActions('ticketType', ['create', 'getDetail']),
+    ...mapActions('source', ['update', 'getDetail']),
     async submit (data) {
       this.btnLoading = true
-      await this.create({
-        id: this.ticketType.id,
+      await this.update({
+        id: this.source.id,
         data: data,
         cb: () => {
           this.$refs.form.$emit('init', {})
-          this.$router.push({'name': 'ticket-type', query: this.parseListParrams() })
+          this.$router.push({'name': 'source', query: this.parseListParrams() })
         }
       })
       this.btnLoading = false
@@ -63,13 +63,13 @@ export default {
       }
     },
     initForm () {
-      let data = Object.assign({}, this.ticketType)
+      let data = Object.assign({}, this.source)
       this.$refs.form.$emit('init', data)
     }
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      if (!vm.ticketType.id) {
+      if (!vm.source.id) {
         vm.getDetail({
           id: vm.$route.params.id,
           query: { },

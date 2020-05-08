@@ -38,7 +38,7 @@
               color="primary"
               @click="passes(submit)"
             >
-              {{ $t('actions.create') }}
+              {{isCreateForm() ? $t('actions.create') : $t('actions.update')}}
             </v-btn>
           </div>
         </v-col>
@@ -78,6 +78,12 @@ export default {
     submit () {
       console.log('submit form')
       this.$emit('submit', this.formData)
+    },
+    isCreateForm () {
+      return this.getType() === 'create'
+    },
+    getType () {
+      return this.type || 'create'
     }
   },
   mounted () {

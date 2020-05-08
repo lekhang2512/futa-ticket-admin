@@ -51,30 +51,57 @@
             </v-text-field>
           </ValidationProvider>
         </v-col>
+         <v-col cols="12">
+          <ValidationProvider
+            :name="$t('pages.ticket_type.type')"
+            rules="required"
+            v-slot="{ errors }"
+          >
+            <v-autocomplete
+              autocomplete='off'
+              :label="$t('pages.ticket_type.type')"
+              name="type"
+              v-model="formData.type"
+              :messages="errors[0] || ''"
+              :error="!!errors.length"
+              :items="types"
+              item-text="name"
+              item-value="code"
+            >
+              <template v-slot:label>
+                <div>
+                  {{$t('pages.ticket_type.type')}} <sup class="red--text">*</sup>
+                </div>
+              </template>
+            </v-autocomplete>
+          </ValidationProvider>
+        </v-col>
 
         <v-col cols="12" sm="4">
           <ValidationProvider
-            :name="$t('pages.ticket.assignee')"
+            :name="$t('pages.ticket_type.assignee')"
             rules="required"
             v-slot="{ errors }"
             >
             <v-autocomplete
+              autocomplete='off'
               name="role"
-              v-model="formData.role"
+              v-model="formData.roles"
               :items="roles"
               item-text="name"
               item-value="id"
-              :label="$t('pages.ticket.assignee')"
+              :label="$t('pages.ticket_type.assignee')"
               :messages="errors[0] || ''"
               :error="!!errors.length"
-              :loading="false"
-              :filter="filterType"
-              clearable
-              clear-icon="close"
-              class="input-required"
-            >
-              <template slot="selection" slot-scope="data">
-                {{ data.item.name }}
+              :loading="rolesLoading"
+              multiple
+              chips
+              deletable-chips
+              >
+              <template v-slot:label>
+                <div>
+                  {{$t('pages.ticket_type.assignee')}} <sup class="red--text">*</sup>
+                </div>
               </template>
             </v-autocomplete>
           </ValidationProvider>
@@ -88,13 +115,15 @@
               :loading="!!submitting"
               color="primary"
               @click="passes(submit)"
-            >
+              >
               {{isCreateForm() ? $t('actions.create') : $t('actions.update')}}
             </v-btn>
           </div>
         </v-col>
       </v-row>
     </v-form>
+
+    {{ formData }}
   </ValidationObserver>
 </template>
 
@@ -106,12 +135,13 @@ import { vnFilter } from '@/utils'
 const initFrom = {
   name: '',
   description: '',
-  role: ''
+  type: null,
+  roles: []
 }
 export default {
   name: 'TicketTypeForm',
   props: {
-    type: {
+    typeForm: {
       type: String,
       default: 'create',
     },
@@ -123,10 +153,14 @@ export default {
   data () {
     return {
       formData: Object.assign({}, initFrom),
+      types: [
+        { name: 'Hệ thống', code: 1 },
+        { name: 'Khách hàng', code: 2 }
+      ],
     }
   },
   computed: {
-    ...mapGetters('role', ['roles'])
+    ...mapGetters('role', ['roles', 'rolesLoading'])
   },
   methods: {
     ...mapActions('role', ['getByQuery']),
@@ -140,7 +174,7 @@ export default {
       return this.getType() === 'create'
     },
     getType () {
-      return this.type || 'create'
+      return this.typeForm || 'create'
     },
     fetchRole () {
       if (!this.roles.length) {
@@ -155,11 +189,13 @@ export default {
   },
   mounted () {
     this.$refs.name.focus()
-    this.fetchRole()
+    if (!this.roles.length) {
+      this.fetchRole()
+    }
   },
   created () {
     this.$on('init', (data) => {
-      let allowData = pick(data, 'name', 'description')
+      let allowData = pick(data, 'name', 'description', 'type', 'roles')
       this.$refs.observer.reset();
       this.formData = Object.assign({}, initFrom, allowData)
     })

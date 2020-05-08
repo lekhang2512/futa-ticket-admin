@@ -22,6 +22,17 @@ export default [
     }
   },
   {
+    path: '/sources/:id/update',
+    name: 'source-update',
+    component: () => import('@/views/source/Update.vue'),
+    meta: {
+      title: {
+        i18n: 'title.source_update'
+      },
+      require_auth: true
+    }
+  },
+  {
     path: '/sources/duplicate',
     name: 'source-duplicate',
     component: () => import('@/views/source/Duplicate.vue'),

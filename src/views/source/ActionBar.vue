@@ -1,10 +1,13 @@
 <template>
   <fragment>
+    <edit-button
+      @click="actionEdit(item)"
+    />
     <duplicate-button
       @click="actionDuplicate(item)"
     />
     <delete-button
-      :message="`${$t('confirms.delete')} ${$t('title.source').toLowerCase()}: ${item.name}`"
+      :message="`${$t('confirms.delete')} ${$t('pages.source.source').toLowerCase()}: ${item.name}?`"
       @click="actionDelete(item)"
     />
   </fragment>
@@ -39,6 +42,10 @@
         } else {
           return this.$route.query.list || undefined
         }
+      },
+      actionEdit(item) {
+        this[SET_SOURCE_DETAIL](item)
+        this.$router.push({name: 'source-update', params: {id: item.id}, query: { list: this.parseListParams()}})
       },
       actionDuplicate(item) {
         this[SET_SOURCE_DETAIL](item)

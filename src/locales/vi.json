@@ -67,16 +67,20 @@
       "source": "Nguồn"
     },
     "ticket_type": {
+      "ticket_type": "loại sự cố",
       "name": "Tiêu đề",
+      "type": "Loại",
       "description": "Mô tả",
       "priority": "Độ ưu tiên",
       "status": "Trạng thái",
+      "assignee": "Người phụ trách",
       "due_date": "Ngày hết hạn",
       "assignee": "Người phụ trách",
       "filter_query": "Tìm kiếm ...",
       "filter_status": "Tìm kiếm trạng thái"
     },
     "source": {
+      "source": "nguồn",
       "name": "Tiêu đề",
       "description": "Mô tả",
       "priority": "Độ ưu tiên",
@@ -225,7 +229,7 @@
     "delete_success": "Xóa thành công"
   },
   "confirms": {
-    "delete": "Bạn chắc chắn muốn xoá?"
+    "delete": "Bạn chắc chắn muốn xoá"
   },
   "dialogs": {
     "user_rank": {
