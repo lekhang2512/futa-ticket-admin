@@ -187,15 +187,14 @@ export default {
   },
   mounted () {
     this.$refs.name.focus()
-    if (!this.roles.length) {
-      this.fetchRole()
-    }
+    this.fetchRole()
   },
   created () {
     this.$on('init', (data) => {
       let allowData = pick(data, 'name', 'description', 'type', 'roles')
       this.$refs.observer.reset();
       this.formData = Object.assign({}, initFrom, allowData)
+      this.formData .roles
     })
   },
   watch: {
