@@ -98,6 +98,18 @@ export default {
           can_access: true
         },
         {
+          icon: 'mdi-account-outline',
+          text: this.$t('title.user'),
+          route: { name: 'user' },
+          can_access: true
+        },
+        {
+          icon: 'mdi-account-tie-outline',
+          text: this.$t('title.role'),
+          route: { name: 'role' },
+          can_access: true
+        },
+        {
           icon: 'mdil-settings',
           text: this.$t('title.setting'),
           can_access: true,

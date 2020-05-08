@@ -33,6 +33,9 @@ _axios.interceptors.response.use(
     return response
   },
   function(error) {
+    if (error.response.status === 401) {
+      store.dispatch('auth/logout')
+    }
     store.dispatch('app/setLoading', false)
     return Promise.reject(error)
   }
