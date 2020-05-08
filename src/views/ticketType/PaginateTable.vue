@@ -110,10 +110,10 @@ export default {
     },
     buildQuery () {
       return {
-        include: ['roles'],
         limit: this.options.itemsPerPage || undefined,
         page: this.options.page || undefined,
-        q: this.filters.q || undefined
+        q: this.filters.q || undefined,
+        include: ['roles'],
       }
     },
     buildSort () {

@@ -11,23 +11,23 @@
     <v-col cols="12" md="9">
       <v-chip
         v-model="value.status"
-        v-for="(item, index) in status"
+        v-for="(item, index) in statuses"
         :key="index"
         class="ma-2"
         dark
         label
         outlined
-        :color="ticketStatusColor[item.code]"
+        :color="helpers.statuses_color[item.code]"
         @click="$emit('filterStatus', item.code)"
-      >
-      {{ item.name }}
+        >
+        {{ item.name }}
       </v-chip>
     </v-col>
   </v-row>
 </template>
 <script>
 import FilterTextField from '@/components/filter/FilterTextField.vue'
-import { ticketStatusColor } from '@/helpers/variables'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'TicketFilterBar',
@@ -37,14 +37,10 @@ export default {
   },
   data () {
     return {
-      ticketStatusColor: ticketStatusColor,
-      status: [
-        { name: 'Chờ xử lý', code: 1 },
-        { name: 'Đang xử lý', code: 10 },
-        { name: 'Đã xử lý', code: 20 },
-        { name: 'Đóng', code: 30 }
-      ]
     }
+  },
+  computed: {
+    ...mapGetters('ticket', ['helpers', 'statuses'])
   }
 }
 </script>

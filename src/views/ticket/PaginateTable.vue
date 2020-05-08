@@ -36,11 +36,12 @@
       <span v-html="item.description"></span>
     </template>
 
+
     <template v-slot:item.priority="{ item }">
       <v-chip
         small
         dark
-        :color="ticketPriorityColor[item.priority]"
+        :color="helpers.priorities_color[item.priority]"
       >
       {{ item.priority_txt }}
     </v-chip>
@@ -50,7 +51,7 @@
       <v-chip
         small
         dark
-        :color="ticketStatusColor[item.status]"
+        :color="helpers.statuses_color[item.status]"
       >
       {{ item.status_txt }}
     </v-chip>
@@ -73,7 +74,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import { forEach, isEqual } from 'lodash'
 import FilterBar from './FilterBar.vue'
-import { ticketStatusColor, ticketPriorityColor } from '@/helpers/variables'
+import { ticketPriorityColor } from '@/helpers/variables'
 import ActionBar from './ActionBar.vue'
 
 export default {
@@ -106,12 +107,11 @@ export default {
         { text: this.$t('pages.ticket.due_date'), value: 'due_date', sortable: false },
         { text: this.$t('actions.label'), value: 'actions', sortable: false }
       ],
-      ticketStatusColor: ticketStatusColor,
       ticketPriorityColor: ticketPriorityColor
     }
   },
   computed: {
-    ...mapGetters('ticket', ['tickets', 'ticketPagination']),
+    ...mapGetters('ticket', ['tickets', 'ticketPagination', 'helpers']),
     ...mapGetters('table', ['itemsPerPageOptions', 'itemsPerPage']),
     data: {
       get () {
@@ -125,7 +125,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('ticket', ['getByQuery']),
+    ...mapActions('ticket', ['getByQuery', 'getHelpers']),
     showDetail () {
       console.log('showDetail')
     },
@@ -135,12 +135,12 @@ export default {
     },
     buildQuery () {
       return {
-        include: 'permissions',
         limit: this.options.itemsPerPage || undefined,
         page: this.options.page || undefined,
         // sort: this.buildSort() || undefined,
         q: this.filters.q || undefined,
         status: this.filters.status,
+        include: 'permissions'
       }
     },
     buildSort () {
@@ -178,10 +178,14 @@ export default {
         query: this.buildQuery(),
         cb: () => {}
       })
+    },
+    fetchHelpers () {
+      this.getHelpers({})
     }
   },
   created () {
     this.init()
+    this.fetchHelpers()
 
     this.$on('reload', () => {
       this.fetchData()
@@ -208,7 +212,9 @@ export default {
 </script>
 
 <style lang="scss">
-  .text-start:nth-child(6) {
+  .text-start:nth-child(6),
+  .text-start:nth-child(7),
+  .text-start:last-child {
     text-align: center !important;
   }
 </style>

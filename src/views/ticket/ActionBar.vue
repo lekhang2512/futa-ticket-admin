@@ -1,19 +1,44 @@
 <template>
   <fragment>
     <edit-button
+      v-if="access('ticket', 'update') && item.permissions.update"
       @click="actionEdit(item)"
     />
-    <duplicate-button
-      @click="actionDuplicate(item)"
-    />
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on }">
+        <v-btn
+          v-if="access('ticket', 'in_progress') && item.permissions.can_in_progress"
+          small icon v-on="on" @click="actionEdit(item)">
+          <v-icon color="orange">near_me</v-icon>
+        </v-btn>
+      </template>
+      <span>{{$t('actions.in_progress')}}</span>
+    </v-tooltip>
+
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on }">
+        <v-btn
+          v-if="access('ticket', 'resolved') && item.permissions.can_resolved"
+          small icon v-on="on" @click="actionEdit(item)">
+          <v-icon color="green">done</v-icon>
+        </v-btn>
+      </template>
+      <span>{{$t('actions.done')}}</span>
+    </v-tooltip>
+
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on }">
+        <v-btn
+          v-if="access('ticket', 'closed') && item.permissions.can_closed"
+          small icon v-on="on" @click="actionEdit(item)">
+          <v-icon color="#000">clear</v-icon>
+        </v-btn>
+      </template>
+      <span>{{$t('actions.clear')}}</span>
+    </v-tooltip>
+
     <delete-button
-      :message="`${$t('confirms.delete')} ${$t('title.ticket_type').toLowerCase()}: ${item.name}`"
-      @click="actionDelete(item)"
-    />
-    <duplicate-button
-      @click="actionDuplicate(item)"
-    />
-    <delete-button
+      v-if="access('ticket', 'delete')"
       :message="`${$t('confirms.delete')} ${$t('title.ticket_type').toLowerCase()}: ${item.name}`"
       @click="actionDelete(item)"
     />

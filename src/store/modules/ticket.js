@@ -1,4 +1,5 @@
 import {
+  SET_HELPERS,
   SET_TICKETS,
   SET_TICKETS_PAGINATION,
   SET_TICKETS_LOADING,
@@ -6,9 +7,11 @@ import {
 } from '../mutation-types'
 import TicketRepository from '@/repositories/ticket'
 import i18n from '@/i18n'
+import { forEach } from 'lodash'
 
 const initState = () => {
   return {
+    helpers: {},
     list: [],
     listLoading: false,
     pagination: {
@@ -25,10 +28,11 @@ const initState = () => {
  * state
  */
 const state = {
+  helpers: initState().helpers,
   list: initState().list,
   listLoading: initState().listLoading,
   detail: initState().detail,
-  pagination: initState().pagination,
+  pagination: initState().pagination
 }
 
 /**
@@ -47,6 +51,19 @@ const actions = {
       if (response.meta && response.meta.pagination) {
         commit(SET_TICKETS_PAGINATION, response.meta.pagination )
       }
+      if (payload.cb) {
+        payload.cb(response.data)
+      }
+    } else {
+      dispatch('api/handleResponse', response, { root: true })
+    }
+  },
+  async getHelpers ({ dispatch, commit }, payload) {
+    let ticketRepo = (new TicketRepository(window.axios))
+    let {success, response} = await ticketRepo.getHelpers(payload.query)
+
+    if (success) {
+      commit(SET_HELPERS, response.data)
       if (payload.cb) {
         payload.cb(response.data)
       }
@@ -76,6 +93,9 @@ const actions = {
  * mutations
  */
 const mutations = {
+  [SET_HELPERS]: (state, list) => {
+    state.helpers = list
+  },
   [SET_TICKETS]: (state, list) => {
     state.list = list
   },
@@ -86,6 +106,7 @@ const mutations = {
     state.pagination = pagination
   },
   [SET_INITIAL_STATE]: (state) => {
+    state.helpers = initState().helpers
     state.list = initState().list
     state.detail = initState().detail
     state.pagination = initState().pagination
@@ -96,10 +117,24 @@ const mutations = {
  * getters
  */
 const getters = {
+  helpers: (state) => state.helpers,
   tickets: (state) => state.list,
   ticketsLoading: (state) => state.listLoading,
   ticket: (state) => state.detail,
-  ticketPagination: (state) => state.pagination
+  ticketPagination: (state) => state.pagination,
+  statuses: (state) => {
+    if (state.helpers && state.helpers.statuses) {
+      let helpers = [];
+      forEach(state.helpers.statuses, (value, key) => {
+        helpers.push({
+          code: key,
+          name: value
+        })
+      })
+      return helpers
+    }
+    return []
+  },
 }
 
 export default {
