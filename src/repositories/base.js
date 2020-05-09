@@ -15,8 +15,6 @@ class BaseRepository {
 
   async getByQuery (query = {}, headers = {}) {
     try {
-      query.include = query.include ? query.include : []
-      // query.include.push('permissions')
       let response = await this.httpClient.get(this.url(), { params: query, headers: headers })
       return this.success(response.data)
     } catch(e) {

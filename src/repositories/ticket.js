@@ -14,14 +14,6 @@ class TicketRepository extends BaseRepository {
       return this.handlerHttpError(e)
     }
   }
-  async create (data, query = {}, headers = {}) {
-    try {
-      let response = await this.httpClient.post(this.url(), data, { params: query, headers: headers })
-      return this.success(response.data)
-    } catch(e) {
-      return this.handlerHttpError(e)
-    }
-  }
   async close (id, query = {}, headers = {}) {
     try {
       let response = await this.httpClient.put(`${this.url()}/${id}/closed`, { params: query, headers: headers })

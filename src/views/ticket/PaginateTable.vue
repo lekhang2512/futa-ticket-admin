@@ -27,8 +27,7 @@
     </template>
 
     <template v-slot:item.index="{ item }">
-      <!-- <span> {{ data.map(function(x) {return x.id }).indexOf(item.id) + 1}}</span> -->
-      <span> {{ item.id }}</span>
+      <span> {{ data.map(function(x) {return x.id }).indexOf(item.id) + 1}}</span>
     </template>
     <template v-slot:item.name="{ item }">
       <a @click="showDetail()">{{ item.name }}</a>
