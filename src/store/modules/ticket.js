@@ -107,9 +107,25 @@ const actions = {
       dispatch('api/handleResponse', response, { root: true })
     }
   },
+  async update ({ dispatch }, payload) {
+    let ticketRepo = (new TicketRepository(window.axios))
+    let {success, response} = await ticketRepo.update(payload.id, payload.data)
+
+    if (success) {
+      dispatch('snackbar/showSnackBar', {
+        color: 'success',
+        text: i18n.tc('notify.update_success')
+      }, { root: true })
+      if (payload.cb) {
+        payload.cb(response.data)
+      }
+    } else {
+      dispatch('api/handleResponse', response, { root: true })
+    }
+  },
   async close ({ dispatch }, payload) {
-    let ticketTypeRepo = (new TicketRepository(window.axios))
-    let {success, response} = await ticketTypeRepo.close(payload.id)
+    let ticketRepo = (new TicketRepository(window.axios))
+    let {success, response} = await ticketRepo.close(payload.id)
 
     if (success) {
       dispatch('snackbar/showSnackBar', {

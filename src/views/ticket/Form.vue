@@ -2,9 +2,6 @@
   <ValidationObserver v-slot="{ invalid, passes }" ref="observer">
     <v-form @submit.prevent="passes(submit)">
       <v-row dense>
-        {{ formData }}
-        <br/>
-        <br/>
         <v-col cols="12" sm="4">
           <ValidationProvider
             :name="$t('pages.ticket.name')"
@@ -69,9 +66,10 @@
           <v-datetime-picker
             v-model="datetime"
             :text-field-props="textFieldProps"
-            time-format="HH:mm"
-            data-format="yyyy-MM-dd"
-            label="Ngày đáo hạn"
+            date-format="dd-MM-yyyy"
+            :clearText="$t('actions.cancel')"
+            :okText="$t('actions.apply')"
+            :label="$t('pages.ticket.due_date')"
             />
         </v-col>
 
@@ -94,8 +92,6 @@
             </template>
           </v-autocomplete>
         </v-col>
-
-        {{ time }}
 
         <!-- <v-col cols="12">
           <v-combobox
@@ -139,7 +135,8 @@
 import { mapGetters, mapActions } from 'vuex'
 import { vnFilter } from '@/utils'
 import Tiny from '@/components/Editor.vue'
-import { format } from 'date-fns'
+import { format, parse } from 'date-fns'
+// import { parseISO } from 'date-fns'
 import { pick } from 'lodash'
 
 const initFrom = {
@@ -169,8 +166,7 @@ export default {
       datetime: '',
       textFieldProps: {
         appendIcon: 'event'
-      },
-      time: ''
+      }
     }
   },
   computed: {
@@ -216,10 +212,14 @@ export default {
   },
   created () {
     this.$on('init', (data) => {
-      let allowData = pick(data, 'name', 'type_id', 'description', 'priority', 'due_date', 'source_id', 'tags')
-      this.$refs.observer.reset();
-      this.formData = Object.assign({}, initFrom, allowData)
-      this.datetime = ''
+      if (data) {
+        let allowData = pick(data, 'name', 'type_id', 'description', 'priority', 'due_date', 'source_id', 'tags')
+        this.$refs.observer.reset();
+        this.formData = Object.assign({}, initFrom, allowData)
+        if (allowData.due_date) {
+          this.datetime = parse(allowData.due_date, 'dd-MM-yyyy HH:mm', new Date())
+        }
+      }
     })
   },
   mounted () {
@@ -241,8 +241,7 @@ export default {
     },
     'datetime' (val) {
       if (val) {
-        this.time = val
-        this.formData.due_date = format(val, 'yyyy-MM-dd HH:mm')
+        this.formData.due_date = format(val, 'dd-MM-yyyy HH:mm')
       }
     },
   }

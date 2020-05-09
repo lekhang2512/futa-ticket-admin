@@ -48,7 +48,7 @@ export default {
         data: data,
         cb: () => {
           this.$refs.form.$emit('init', {})
-          this.$router.push({'name': 'ticket-type', query: this.parseListParrams() })
+          this.$router.push({'name': 'ticket', query: this.parseListParrams() })
         }
       })
       this.btnLoading = false
