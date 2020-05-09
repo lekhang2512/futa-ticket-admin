@@ -123,6 +123,38 @@ const actions = {
       dispatch('api/handleResponse', response, { root: true })
     }
   },
+  async progress ({ dispatch }, payload) {
+    let ticketRepo = (new TicketRepository(window.axios))
+    let {success, response} = await ticketRepo.progress(payload.id)
+
+    if (success) {
+      dispatch('snackbar/showSnackBar', {
+        color: 'success',
+        text: i18n.tc('notify.change_status_success')
+      }, { root: true })
+      if (payload.cb) {
+        payload.cb(response.data)
+      }
+    } else {
+      dispatch('api/handleResponse', response, { root: true })
+    }
+  },
+  async resolved ({ dispatch }, payload) {
+    let ticketRepo = (new TicketRepository(window.axios))
+    let {success, response} = await ticketRepo.resolved(payload.id)
+
+    if (success) {
+      dispatch('snackbar/showSnackBar', {
+        color: 'success',
+        text: i18n.tc('notify.change_status_success')
+      }, { root: true })
+      if (payload.cb) {
+        payload.cb(response.data)
+      }
+    } else {
+      dispatch('api/handleResponse', response, { root: true })
+    }
+  },
   async close ({ dispatch }, payload) {
     let ticketRepo = (new TicketRepository(window.axios))
     let {success, response} = await ticketRepo.close(payload.id)

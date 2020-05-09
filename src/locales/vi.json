@@ -230,7 +230,8 @@
     "create_success": "Tạo mới thành công",
     "update_success": "Cập nhật thành công",
     "delete_success": "Xóa thành công",
-    "close_success": "Đóng thành công"
+    "close_success": "Đóng thành công",
+    "change_status_success": "Đổi trạng thái thành công"
   },
   "confirms": {
     "delete": "Bạn chắc chắn muốn xoá"
