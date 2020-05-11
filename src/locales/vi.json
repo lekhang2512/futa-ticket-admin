@@ -202,7 +202,7 @@
     "404_api": "Không tìm thấy api này"
   },
   "actions": {
-    "warning_action_text": "Tác vụ nguy hiểm!!!",
+    "warning_action_text": "Cảnh báo!!!",
     "warning_action_message": "Tác vụ không thể hoàn tác. Vui lòng xác thực thông tin bên đưới trước khi thực hiện!",
     "edit": "Chỉnh sửa",
     "update": "Cập nhật",

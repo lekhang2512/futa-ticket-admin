@@ -57,9 +57,14 @@
           ></v-select>
         </v-col>
 
-        <v-col cols="12">
+        <v-col cols="12" v-if="type != 'create'">
           <span>{{ $t('pages.ticket.description') }}</span>
-          <tiny :id="`editor`" v-model="formData.description"></tiny>
+          <tiny :id="`editor-update`" v-model="formData.description"></tiny>
+        </v-col>
+
+        <v-col cols="12" v-if="type == 'create'">
+          <span>{{ $t('pages.ticket.description') }}</span>
+          <tiny :id="`editor-create`" v-model="formData.description"></tiny>
         </v-col>
 
         <v-col cols="12" sm="6">

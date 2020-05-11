@@ -65,6 +65,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import InfoAppBar from './appbar/InfoAppBar.vue'
+
 export default {
   name: 'DrawerBar',
   components: {
@@ -157,7 +158,7 @@ export default {
           }
         })
       }
-    },
+    }
   }
 }
 </script>

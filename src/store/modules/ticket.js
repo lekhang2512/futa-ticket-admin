@@ -123,9 +123,9 @@ const actions = {
       dispatch('api/handleResponse', response, { root: true })
     }
   },
-  async progress ({ dispatch }, payload) {
+  async inProgress ({ dispatch }, payload) {
     let ticketRepo = (new TicketRepository(window.axios))
-    let {success, response} = await ticketRepo.progress(payload.id)
+    let {success, response} = await ticketRepo.inProgress(payload.id)
 
     if (success) {
       dispatch('snackbar/showSnackBar', {
@@ -163,6 +163,22 @@ const actions = {
       dispatch('snackbar/showSnackBar', {
         color: 'success',
         text: i18n.tc('notify.close_success')
+      }, { root: true })
+      if (payload.cb) {
+        payload.cb(response.data)
+      }
+    } else {
+      dispatch('api/handleResponse', response, { root: true })
+    }
+  },
+  async delete ({ dispatch }, payload) {
+    let ticketRepo = (new TicketRepository(window.axios))
+    let {success, response} = await ticketRepo.delete(payload.id)
+
+    if (success) {
+      dispatch('snackbar/showSnackBar', {
+        color: 'success',
+        text: i18n.tc('notify.delete_success')
       }, { root: true })
       if (payload.cb) {
         payload.cb(response.data)

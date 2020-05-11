@@ -34,9 +34,9 @@
       <snackbar />
       <progress-bar />
       <transition>
-        <!-- <keep-alive> -->
+        <keep-alive>
           <router-view></router-view>
-        <!-- </keep-alive> -->
+        </keep-alive>
       </transition>
     </v-content>
   </v-app>

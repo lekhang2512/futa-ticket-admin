@@ -1,16 +1,22 @@
 import Vue from 'vue'
+import { mapGetters } from 'vuex'
+import { isEmpty } from 'lodash'
 
 Vue.mixin({
+  computed: {
+    ...mapGetters('auth', ['permissions'])
+  },
   methods: {
     access(object, action) {
-      let permissions = this.$store.state.auth.permissions || {}
-      if ('admin.super-admin' in permissions) {
-        return true
-      }
-      if (`${object}.${action}` in permissions && permissions[`${object}.${action}`]) {
-        return true
-      } else {
-        return false
+      if (!isEmpty(this.permissions)) {
+        if ('admin.super-admin' in this.permissions) {
+          return true
+        }
+        if (`${object}.${action}` in this.permissions && this.permissions[`${object}.${action}`]) {
+          return true
+        } else {
+          return false
+        }
       }
     }
   }
