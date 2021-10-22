@@ -18,7 +18,7 @@
     "lodash": "4.17.15",
     "moment": "2.24.0",
     "register-service-worker": "1.6.2",
-    "tinymce": "4.9.8",
+    "tinymce": "5.9.0",
     "v-viewer": "^1.5.1",
     "vee-validate": "3.0.11",
     "vue": "2.6.10",
